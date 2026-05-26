@@ -80,6 +80,8 @@ export default function Navbar() {
                     <Image
                       src={session.user.image}
                       alt={session.user.name}
+                      width={36} // Thik kora hoychhe
+                      height={36} // Thik kora hoychhe
                       className="w-9 h-9 rounded-full object-cover border-2 border-orange-400"
                     />
                   ) : (
@@ -142,7 +144,13 @@ export default function Navbar() {
               <>
                 <Link href="/my-profile" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
                   {session.user.image ? (
-                    <Image src={session.user.image} alt={session.user.name} className="w-8 h-8 rounded-full object-cover border-2 border-orange-400" />
+                    <Image 
+                      src={session.user.image} 
+                      alt={session.user.name} 
+                      width={32} // Thik kora hoychhe
+                      height={32} // Thik kora hoychhe
+                      className="w-8 h-8 rounded-full object-cover border-2 border-orange-400" 
+                    />
                   ) : (
                     <FaUserCircle size={32} className="text-orange-400" />
                   )}
