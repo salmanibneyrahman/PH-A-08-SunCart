@@ -1,199 +1,177 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 import Link from "next/link";
 import Image from "next/image";
-import { authClient } from "@/lib/auth-client";
-import toast from "react-hot-toast";
-import { FiSun, FiArrowLeft, FiUser, FiImage, FiSave } from "react-icons/fi";
+import {
+  FiUser,
+  FiMail,
+  FiEdit3,
+  FiArrowLeft,
+  FiCalendar,
+  FiShield,
+} from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 
-export default function UpdateProfilePage() {
-  const [name, setName] = useState("");
-  const [image, setImage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(true);
-  const [preview, setPreview] = useState("");
-  const [previewValid, setPreviewValid] = useState(false);
-  const router = useRouter();
+function getMemberYear(createdAt) {
+  if (!createdAt) return new Date().getFullYear();
+  return new Date(createdAt).getFullYear();
+}
 
-  useEffect(() => {
-    const loadSession = async () => {
-      try {
-        const { data } = await authClient.getSession();
-        if (!data?.user) {
-          router.push("/login");
-          return;
-        }
-        setName(data.user.name || "");
-        setImage(data.user.image || "");
-        setPreview(data.user.image || "");
-        setPreviewValid(!!data.user.image);
-      } catch {
-        router.push("/login");
-      } finally {
-        setFetching(false);
-      }
-    };
-    loadSession();
-  }, [router]);
+export default async function MyProfilePage() {
+  const session = await auth.api.getSession({ headers: await headers() });
 
-  const handleImageChange = (e) => {
-    setImage(e.target.value);
-    setPreview(e.target.value);
-    setPreviewValid(true);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const result = await authClient.updateUser({
-        name,
-        image,
-      });
-      if (result?.error) {
-        toast.error(result.error.message || "Update failed");
-      } else {
-        toast.success("Profile updated successfully!");
-        router.push("/my-profile");
-        router.refresh();
-      }
-    } catch (err) {
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (fetching) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <span className="loading loading-spinner loading-lg text-orange-500" />
-      </div>
-    );
+  if (!session?.user) {
+    redirect("/login");
   }
+
+  const user = session.user;
+  const memberYear = getMemberYear(user.createdAt);
+
+  const stats = [
+    { label: "Member Since", value: memberYear },
+    { label: "Account Type", value: "Standard" },
+    { label: "Status", value: "Active" },
+  ];
+
+  const profileDetails = [
+    {
+      icon: <FiUser className="text-orange-500" size={16} />,
+      label: "Full Name",
+      value: user.name,
+      valueClass: "text-gray-900 font-semibold text-sm",
+    },
+    {
+      icon: <FiMail className="text-orange-500" size={16} />,
+      label: "Email Address",
+      value: user.email,
+      valueClass: "text-gray-900 font-semibold text-sm",
+    },
+    {
+      icon: <FiShield className="text-orange-500" size={16} />,
+      label: "Account Status",
+      value: "Verified & Active",
+      valueClass: "text-green-600 font-semibold text-sm",
+    },
+    {
+      icon: <FiCalendar className="text-orange-500" size={16} />,
+      label: "User ID",
+      value: user.id ? `${user.id.substring(0, 16)}...` : "N/A",
+      valueClass: "text-gray-900 font-semibold text-sm font-mono",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-lg mx-auto">
-        {/* Back */}
+      <div className="max-w-3xl mx-auto">
         <Link
-          href="/my-profile"
+          href="/"
           className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-orange-500 mb-8 transition"
         >
-          <FiArrowLeft size={16} /> Back to Profile
+          <FiArrowLeft size={16} /> Back to Home
         </Link>
 
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 font-black text-2xl text-orange-500"
-          >
-            <FiSun size={28} />
-            SunCart
-          </Link>
-        </div>
-
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-          {/* Header */}
-          <div className="h-24 bg-gradient-to-r from-orange-400 to-pink-500" />
+        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+          <div className="h-40 bg-gradient-to-r from-orange-400 via-orange-500 to-pink-500 relative">
+            <div
+              className="absolute inset-0 opacity-20"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 20% 80%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)",
+                backgroundSize: "30px 30px",
+              }}
+            />
+          </div>
 
           <div className="px-8 pb-8">
-            {/* Preview Avatar */}
-            <div className="-mt-12 mb-6 flex flex-col items-center">
-              <div className="w-24 h-24 rounded-full border-4 border-white overflow-hidden bg-white shadow-md mb-3">
-                {preview && previewValid ? (
+            <div className="relative -mt-16 mb-5 flex items-end justify-between">
+              <div className="w-28 h-28 rounded-full border-4 border-white overflow-hidden bg-white shadow-md">
+                {user.image ? (
                   <Image
-                    src={preview}
-                    alt="Preview"
-                    width={96}
-                    height={96}
+                    src={user.image}
+                    alt={user.name || "User"}
+                    width={112}
+                    height={112}
                     className="w-full h-full object-cover"
-                    onError={() => setPreviewValid(false)}
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-orange-50">
-                    <FaUserCircle size={64} className="text-orange-400" />
+                    <FaUserCircle size={72} className="text-orange-400" />
                   </div>
                 )}
               </div>
-              <p className="text-xs text-gray-400">Photo Preview</p>
+              <Link
+                href="/my-profile/update"
+                className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold uppercase tracking-widest px-5 py-2.5 rounded-full transition"
+              >
+                <FiEdit3 size={14} />
+                Update Profile
+              </Link>
             </div>
 
-            <h2 className="text-xl font-black text-gray-900 uppercase tracking-wide mb-1 text-center">
-              Update Information
-            </h2>
-            <p className="text-gray-500 text-sm text-center mb-7">
-              Update your name and profile photo
-            </p>
+            <h1 className="text-2xl font-black text-gray-900 mb-1">{user.name}</h1>
+            <p className="text-gray-500 text-sm mb-6">{user.email}</p>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <FiUser
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-                    size={16}
-                  />
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    placeholder="Your full name"
-                    className="input w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
-                  />
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="bg-gray-50 rounded-2xl p-4 text-center border border-gray-100"
+                >
+                  <p className="text-gray-900 font-black text-lg">{stat.value}</p>
+                  <p className="text-gray-400 text-xs uppercase tracking-widest mt-1">
+                    {stat.label}
+                  </p>
                 </div>
-              </div>
+              ))}
+            </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  Photo URL
-                </label>
-                <div className="relative">
-                  <FiImage
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-                    size={16}
-                  />
-                  <input
-                    type="url"
-                    value={image}
-                    onChange={handleImageChange}
-                    placeholder="https://example.com/photo.jpg"
-                    className="input w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
-                  />
+            <div className="space-y-4">
+              <h2 className="text-base font-black text-gray-900 uppercase tracking-widest mb-4">
+                Profile Information
+              </h2>
+              {profileDetails.map((detail) => (
+                <div
+                  key={detail.label}
+                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100"
+                >
+                  <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center shrink-0">
+                    {detail.icon}
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 uppercase tracking-widest font-medium">
+                      {detail.label}
+                    </p>
+                    <p className={detail.valueClass}>{detail.value}</p>
+                  </div>
                 </div>
-                <p className="text-xs text-gray-400 mt-1.5">
-                  Paste a link to your profile image. The preview above updates
-                  automatically.
-                </p>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase tracking-widest py-3.5 rounded-full transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {loading ? (
-                  <>
-                    <span className="loading loading-spinner loading-sm" />
-                    Updating...
-                  </>
-                ) : (
-                  <>
-                    <FiSave size={16} />
-                    Update Information
-                  </>
-                )}
-              </button>
-            </form>
+              ))}
+            </div>
           </div>
         </div>
+
+        {user.image && (
+          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
+            <h2 className="text-base font-black text-gray-900 uppercase tracking-widest mb-4">
+              Profile Photo
+            </h2>
+            <div className="flex items-center gap-5">
+              <Image
+                src={user.image}
+                alt={user.name || "User"}
+                width={80}
+                height={80}
+                className="rounded-2xl object-cover border border-gray-200"
+              />
+              <div>
+                <p className="text-sm text-gray-600 font-medium mb-1">
+                  Current profile photo
+                </p>
+                <p className="text-xs text-gray-400 break-all">{user.image}</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

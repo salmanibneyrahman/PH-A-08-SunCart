@@ -3,48 +3,61 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
-import { FiSun, FiMail, FiLock, FiUser, FiImage, FiEye, FiEyeOff } from "react-icons/fi";
+import {
+  FiSun,
+  FiMail,
+  FiLock,
+  FiUser,
+  FiImage,
+  FiEye,
+  FiEyeOff,
+  FiAlertCircle,
+} from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 
 export default function RegisterPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [serverError, setServerError] = useState("");
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      photoUrl: "",
+      password: "",
+    },
+  });
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      toast.error("Password too short");
-      return;
-    }
-
+  const onSubmit = async (data) => {
+    setServerError("");
     setLoading(true);
     try {
       const result = await authClient.signUp.email({
-        email,
-        password,
-        name,
-        image: photoUrl || undefined,
+        email: data.email,
+        password: data.password,
+        name: data.name,
+        image: data.photoUrl,
       });
       if (result?.error) {
-        setError(result.error.message || "Registration failed. Please try again.");
+        setServerError(
+          result.error.message || "Registration failed. Please try again."
+        );
         toast.error(result.error.message || "Registration failed");
       } else {
         toast.success("Account created! Please login.");
         router.push("/login");
       }
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      setServerError("Something went wrong. Please try again.");
       toast.error("Something went wrong.");
     } finally {
       setLoading(false);
@@ -67,7 +80,10 @@ export default function RegisterPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 font-black text-3xl text-orange-500">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 font-black text-3xl text-orange-500"
+          >
             <FiSun size={32} />
             SunCart
           </Link>
@@ -76,19 +92,25 @@ export default function RegisterPage() {
 
         {/* Card */}
         <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-          <h2 className="text-2xl font-black text-gray-900 uppercase tracking-wide mb-1">Create Account</h2>
-          <p className="text-gray-500 text-sm mb-7">Join SunCart for the best summer deals</p>
+          <h2 className="text-2xl font-black text-gray-900 uppercase tracking-wide mb-1">
+            Create Account
+          </h2>
+          <p className="text-gray-500 text-sm mb-7">
+            Join SunCart for the best summer deals
+          </p>
 
-          {/* Error */}
-          {error && (
+          {/* Server Error */}
+          {serverError && (
             <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-xl mb-5 flex items-center gap-2">
-              <span className="text-red-500 font-bold">!</span> {error}
+              <FiAlertCircle size={16} className="shrink-0 text-red-500" />
+              {serverError}
             </div>
           )}
 
           {/* Google */}
           <button
             onClick={handleGoogle}
+            type="button"
             className="w-full flex items-center justify-center gap-3 border border-gray-200 rounded-full py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition mb-5"
           >
             <FcGoogle size={20} />
@@ -103,71 +125,152 @@ export default function RegisterPage() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+            {/* Name */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                Full Name <span className="text-red-500">*</span>
+              </label>
               <div className="relative">
-                <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                <FiUser
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  size={16}
+                />
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
                   placeholder="John Doe"
-                  className="input w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                  {...register("name", {
+                    required: "Full name is required",
+                    minLength: {
+                      value: 2,
+                      message: "Name must be at least 2 characters",
+                    },
+                  })}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-xl text-sm focus:outline-none focus:ring-2 transition ${
+                    errors.name
+                      ? "border-red-400 focus:border-red-400 focus:ring-red-100"
+                      : "border-gray-200 focus:border-orange-400 focus:ring-orange-100"
+                  }`}
                 />
               </div>
+              {errors.name && (
+                <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
+                  <FiAlertCircle size={12} />
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
+            {/* Email */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email Address</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                Email Address <span className="text-red-500">*</span>
+              </label>
               <div className="relative">
-                <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                <FiMail
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  size={16}
+                />
                 <input
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
                   placeholder="you@example.com"
-                  className="input w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                  {...register("email", {
+                    required: "Email address is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Please enter a valid email address",
+                    },
+                  })}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-xl text-sm focus:outline-none focus:ring-2 transition ${
+                    errors.email
+                      ? "border-red-400 focus:border-red-400 focus:ring-red-100"
+                      : "border-gray-200 focus:border-orange-400 focus:ring-orange-100"
+                  }`}
                 />
               </div>
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
+                  <FiAlertCircle size={12} />
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
+            {/* Photo URL - MANDATORY */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Photo URL (Optional)</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                Photo URL <span className="text-red-500">*</span>
+              </label>
               <div className="relative">
-                <FiImage className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                <FiImage
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  size={16}
+                />
                 <input
                   type="url"
-                  value={photoUrl}
-                  onChange={(e) => setPhotoUrl(e.target.value)}
                   placeholder="https://example.com/photo.jpg"
-                  className="input w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                  {...register("photoUrl", {
+                    required: "Photo URL is required",
+                    pattern: {
+                      value: /^https?:\/\/.+/,
+                      message: "Please enter a valid URL starting with http:// or https://",
+                    },
+                  })}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-xl text-sm focus:outline-none focus:ring-2 transition ${
+                    errors.photoUrl
+                      ? "border-red-400 focus:border-red-400 focus:ring-red-100"
+                      : "border-gray-200 focus:border-orange-400 focus:ring-orange-100"
+                  }`}
                 />
               </div>
+              {errors.photoUrl && (
+                <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
+                  <FiAlertCircle size={12} />
+                  {errors.photoUrl.message}
+                </p>
+              )}
             </div>
 
+            {/* Password */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                Password <span className="text-red-500">*</span>
+              </label>
               <div className="relative">
-                <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                <FiLock
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  size={16}
+                />
                 <input
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
                   placeholder="Min. 6 characters"
-                  className="input w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
+                  className={`w-full pl-10 pr-12 py-3 border rounded-xl text-sm focus:outline-none focus:ring-2 transition ${
+                    errors.password
+                      ? "border-red-400 focus:border-red-400 focus:ring-red-100"
+                      : "border-gray-200 focus:border-orange-400 focus:ring-orange-100"
+                  }`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
                 >
                   {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                 </button>
               </div>
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
+                  <FiAlertCircle size={12} />
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             <button
@@ -188,7 +291,10 @@ export default function RegisterPage() {
 
           <p className="text-center text-sm text-gray-500 mt-6">
             Already have an account?{" "}
-            <Link href="/login" className="text-orange-500 font-bold hover:underline">
+            <Link
+              href="/login"
+              className="text-orange-500 font-bold hover:underline"
+            >
               Login here
             </Link>
           </p>
