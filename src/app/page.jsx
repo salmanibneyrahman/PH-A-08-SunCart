@@ -25,7 +25,7 @@ const careTips = [
   },
   {
     image:
-      "https://images.unsplash.com/photo-1548315538-62a4f8c1bad8?w=400&q=80",
+      "https://images.unsplash.com/photo-1618111415221-27a938943fe4?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     title: "Stay Hydrated",
     tip: "Drink at least 8-10 glasses of water daily. Carry a reusable bottle to stay refreshed at the beach.",
     color: "bg-blue-50",

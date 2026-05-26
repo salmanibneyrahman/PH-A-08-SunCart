@@ -80,8 +80,8 @@ export default function Navbar() {
                     <Image
                       src={session.user.image}
                       alt={session.user.name}
-                      width={36} // Thik kora hoychhe
-                      height={36} // Thik kora hoychhe
+                      width={36}
+                      height={36}
                       className="w-9 h-9 rounded-full object-cover border-2 border-orange-400"
                     />
                   ) : (
@@ -147,8 +147,8 @@ export default function Navbar() {
                     <Image 
                       src={session.user.image} 
                       alt={session.user.name} 
-                      width={32} // Thik kora hoychhe
-                      height={32} // Thik kora hoychhe
+                      width={32} 
+                      height={32} 
                       className="w-8 h-8 rounded-full object-cover border-2 border-orange-400" 
                     />
                   ) : (

@@ -1,177 +1,145 @@
-import { redirect } from "next/navigation";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import Image from "next/image";
-import {
-  FiUser,
-  FiMail,
-  FiEdit3,
-  FiArrowLeft,
-  FiCalendar,
-  FiShield,
-} from "react-icons/fi";
-import { FaUserCircle } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { FiUser, FiImage, FiArrowLeft, FiLoader } from "react-icons/fi";
 
-function getMemberYear(createdAt) {
-  if (!createdAt) return new Date().getFullYear();
-  return new Date(createdAt).getFullYear();
-}
+export default function UpdateProfilePage() {
+  const [name, setName] = useState("");
+  const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
-export default async function MyProfilePage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  // Load current user data into input fields
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data } = await authClient.getSession();
+        if (!data?.user) {
+          redirect("/login");
+        } else {
+          setName(data.user.name || "");
+          setImage(data.user.image || "");
+        }
+      } catch (error) {
+        toast.error("Failed to load user data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
 
-  if (!session?.user) {
-    redirect("/login");
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    if (!name.trim()) {
+      return toast.error("Name cannot be empty");
+    }
+
+    setIsSubmitting(true);
+    try {
+      // Auth Client functionality to update profile info
+      await authClient.updateUser({
+        name: name,
+        image: image,
+      });
+
+      toast.success("Information updated successfully!");
+      router.push("/my-profile"); // Takes user back to profile
+      router.refresh();
+    } catch (error) {
+      toast.error(error.message || "Failed to update profile");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <FiLoader className="animate-spin text-orange-500" size={32} />
+      </div>
+    );
   }
-
-  const user = session.user;
-  const memberYear = getMemberYear(user.createdAt);
-
-  const stats = [
-    { label: "Member Since", value: memberYear },
-    { label: "Account Type", value: "Standard" },
-    { label: "Status", value: "Active" },
-  ];
-
-  const profileDetails = [
-    {
-      icon: <FiUser className="text-orange-500" size={16} />,
-      label: "Full Name",
-      value: user.name,
-      valueClass: "text-gray-900 font-semibold text-sm",
-    },
-    {
-      icon: <FiMail className="text-orange-500" size={16} />,
-      label: "Email Address",
-      value: user.email,
-      valueClass: "text-gray-900 font-semibold text-sm",
-    },
-    {
-      icon: <FiShield className="text-orange-500" size={16} />,
-      label: "Account Status",
-      value: "Verified & Active",
-      valueClass: "text-green-600 font-semibold text-sm",
-    },
-    {
-      icon: <FiCalendar className="text-orange-500" size={16} />,
-      label: "User ID",
-      value: user.id ? `${user.id.substring(0, 16)}...` : "N/A",
-      valueClass: "text-gray-900 font-semibold text-sm font-mono",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-md mx-auto">
         <Link
-          href="/"
+          href="/my-profile"
           className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-orange-500 mb-8 transition"
         >
-          <FiArrowLeft size={16} /> Back to Home
+          <FiArrowLeft size={16} /> Back to Profile
         </Link>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-          <div className="h-40 bg-gradient-to-r from-orange-400 via-orange-500 to-pink-500 relative">
-            <div
-              className="absolute inset-0 opacity-20"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 20% 80%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)",
-                backgroundSize: "30px 30px",
-              }}
-            />
-          </div>
+        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+          <h1 className="text-2xl font-black text-gray-900 mb-2 uppercase tracking-wide">
+            Update Profile
+          </h1>
+          <p className="text-gray-500 text-sm mb-6">
+            Change your account name and profile image URL.
+          </p>
 
-          <div className="px-8 pb-8">
-            <div className="relative -mt-16 mb-5 flex items-end justify-between">
-              <div className="w-28 h-28 rounded-full border-4 border-white overflow-hidden bg-white shadow-md">
-                {user.image ? (
-                  <Image
-                    src={user.image}
-                    alt={user.name || "User"}
-                    width={112}
-                    height={112}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-orange-50">
-                    <FaUserCircle size={72} className="text-orange-400" />
-                  </div>
-                )}
+          <form onSubmit={handleUpdate} className="space-y-5">
+            {/* Input 1: Name */}
+            <div>
+              <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">
+                Full Name
+              </label>
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
+                  <FiUser size={18} />
+                </span>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter your name"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm focus:outline-none focus:border-orange-500 focus:bg-white transition text-gray-900"
+                />
               </div>
-              <Link
-                href="/my-profile/update"
-                className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold uppercase tracking-widest px-5 py-2.5 rounded-full transition"
-              >
-                <FiEdit3 size={14} />
-                Update Profile
-              </Link>
             </div>
 
-            <h1 className="text-2xl font-black text-gray-900 mb-1">{user.name}</h1>
-            <p className="text-gray-500 text-sm mb-6">{user.email}</p>
-
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              {stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="bg-gray-50 rounded-2xl p-4 text-center border border-gray-100"
-                >
-                  <p className="text-gray-900 font-black text-lg">{stat.value}</p>
-                  <p className="text-gray-400 text-xs uppercase tracking-widest mt-1">
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
+            {/* Input 2: Image URL */}
+            <div>
+              <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">
+                Profile Image URL
+              </label>
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
+                  <FiImage size={18} />
+                </span>
+                <input
+                  type="url"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                  placeholder="https://example.com"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm focus:outline-none focus:border-orange-500 focus:bg-white transition text-gray-900"
+                />
+              </div>
             </div>
 
-            <div className="space-y-4">
-              <h2 className="text-base font-black text-gray-900 uppercase tracking-widest mb-4">
-                Profile Information
-              </h2>
-              {profileDetails.map((detail) => (
-                <div
-                  key={detail.label}
-                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100"
-                >
-                  <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center shrink-0">
-                    {detail.icon}
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-widest font-medium">
-                      {detail.label}
-                    </p>
-                    <p className={detail.valueClass}>{detail.value}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+            {/* Update Button */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 text-white font-bold uppercase tracking-widest py-3 px-4 rounded-full transition flex items-center justify-center gap-2 text-sm mt-2"
+            >
+              {isSubmitting ? (
+                <>
+                  <FiLoader className="animate-spin" size={16} />
+                  Updating...
+                </>
+              ) : (
+                "Update Information"
+              )}
+            </button>
+          </form>
         </div>
-
-        {user.image && (
-          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-base font-black text-gray-900 uppercase tracking-widest mb-4">
-              Profile Photo
-            </h2>
-            <div className="flex items-center gap-5">
-              <Image
-                src={user.image}
-                alt={user.name || "User"}
-                width={80}
-                height={80}
-                className="rounded-2xl object-cover border border-gray-200"
-              />
-              <div>
-                <p className="text-sm text-gray-600 font-medium mb-1">
-                  Current profile photo
-                </p>
-                <p className="text-xs text-gray-400 break-all">{user.image}</p>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
