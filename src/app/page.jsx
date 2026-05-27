@@ -18,28 +18,28 @@ const popularProducts = productsData.slice(0, 3);
 const careTips = [
   {
     image:
-      "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&q=80",
+      "https://images.unsplash.com/photo-1629732047356-30c7e14e712b?q=80&w=1170",
     title: "Skincare Routine",
     tip: "Apply SPF 50 sunscreen 20 minutes before sun exposure. Reapply every 2 hours for maximum protection.",
     color: "bg-orange-50",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1618111415221-27a938943fe4?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1618111415221-27a938943fe4?q=80&w=687",
     title: "Stay Hydrated",
     tip: "Drink at least 8-10 glasses of water daily. Carry a reusable bottle to stay refreshed at the beach.",
     color: "bg-blue-50",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80",
+      "https://images.unsplash.com/photo-1577803645773-f96470509666?q=80&w=1170",
     title: "Eye Protection",
     tip: "Wear UV-blocking sunglasses to protect your eyes from harmful UV rays. Look for 100% UVA/UVB protection.",
     color: "bg-yellow-50",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=400&q=80",
+      "https://images.unsplash.com/photo-1683295550807-bf5b3557d1a2?q=80&w=1170&",
     title: "Seek Shade",
     tip: "Avoid direct sun between 10 AM and 4 PM. Use hats and umbrellas for extra shade during peak hours.",
     color: "bg-green-50",
@@ -473,39 +473,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Boutique Style Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-lg">
-          <div className="bg-gray-100 p-10 flex flex-col justify-center">
-            <p className="text-orange-500 text-xs uppercase font-bold tracking-widest mb-3">
-              New for 2024
-            </p>
-            <h3 className="text-gray-900 text-3xl font-black mb-4 leading-tight">
-              Boutique Style
-            </h3>
-            <p className="text-gray-600 text-sm leading-relaxed mb-6">
-              Explore our curated boutique collection combining refinement,
-              beauty, and grace. A powerful look that combines a comfortable and
-              contemporary summer vibe.
-            </p>
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 bg-gray-900 text-white text-sm font-bold uppercase px-6 py-2.5 rounded-full hover:bg-orange-500 transition w-fit"
-            >
-              View Lookbook <FiArrowRight />
-            </Link>
-          </div>
-          <div className="relative h-72 md:h-auto min-h-72">
-            <Image
-              src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&q=80"
-              alt="Boutique Style"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 }
