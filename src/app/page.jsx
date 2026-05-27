@@ -79,36 +79,42 @@ export default function HomePage() {
       {/* Hero Slider */}
       <HeroSlider />
 
-      {/* Flash Sale Strip - Aesthetic redesign without countdown */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-gray-800 to-gray-950">
-        {/* Background decorative circles */}
-        <div className="absolute -top-10 -left-10 w-48 h-48 rounded-full bg-orange-500 opacity-5" />
-        <div className="absolute -bottom-16 right-[10%] w-60 h-60 rounded-full bg-orange-500 opacity-5" />
+      {/* Flash Sale Strip */}
+      <div className="relative overflow-hidden bg-gray-900 border-y border-gray-800">
+        <div className="absolute top-0 left-1/4 w-72 h-32 bg-orange-500/10 blur-[80px] rounded-full" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-32 bg-amber-500/10 blur-[100px] rounded-full" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-6 flex flex-wrap items-center justify-between gap-4">
+        {/* Subtle Background Pattern Mesh */}
+        <div
+          className="absolute inset-0 opacity-[0.02] pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '16px 16px' }}
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
           {/* Left: Badge + Text */}
-          <div className="flex items-center gap-4">
-            <div className="bg-orange-500 rounded-xl p-2.5 flex items-center justify-center shadow-md shadow-orange-500/10">
-              <FaFire className="text-white" size={20} />
+          <div className="flex items-center gap-4 shrink-0">
+            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/20 ring-4 ring-orange-500/10 animate-pulse">
+              <FaFire className="text-white" size={18} />
             </div>
 
-            <div>
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-orange-500 text-[11px] font-extrabold tracking-widest uppercase">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="text-orange-500 text-[10px] font-black tracking-[0.2em] uppercase">
                   Limited Time
                 </span>
-                <span className="bg-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wider uppercase">
+                <span className="bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[9px] font-bold px-2.5 py-0.5 rounded-full tracking-wider uppercase">
                   Live Now
                 </span>
               </div>
-              <p className="text-white font-black text-xl leading-none">
-                Flash Sale &mdash; Extra 20% OFF
+              <p className="text-white font-black text-xl tracking-tight">
+                Flash Sale &mdash; <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">Extra 20% OFF</span>
               </p>
             </div>
           </div>
 
-          {/* Center: Offer pills */}
-          <div className="flex items-center gap-2.5 flex-wrap">
+          {/* Center: Offer pills (Slick glassmorphism) */}
+          <div className="flex items-center gap-3 flex-wrap">
             {[
               { label: "All Sunglasses", discount: "20% OFF" },
               { label: "Skincare", discount: "15% OFF" },
@@ -116,13 +122,13 @@ export default function HomePage() {
             ].map((offer) => (
               <div
                 key={offer.label}
-                className="flex items-center gap-1.5 bg-white/5 border border-white/12 rounded-full px-3.5 py-1.5 hover:border-orange-500/30 transition-colors duration-300"
+                className="flex items-center gap-2 bg-white/[0.02] border border-white/[0.06] backdrop-blur-md rounded-full px-4 py-2 hover:border-orange-500/40 hover:bg-white/[0.04] transition-all duration-300 group"
               >
-                <FiTag className="text-orange-500" size={11} />
-                <span className="text-gray-300 text-xs font-medium">
+                <FiTag className="text-gray-500 group-hover:text-orange-400 transition-colors" size={12} />
+                <span className="text-gray-400 text-xs font-semibold tracking-wide">
                   {offer.label}:
                 </span>
-                <span className="text-orange-400 text-xs font-extrabold">
+                <span className="text-orange-400 text-xs font-black tracking-wide bg-orange-500/10 px-2 py-0.5 rounded-md border border-orange-500/10">
                   {offer.discount}
                 </span>
               </div>
@@ -132,9 +138,10 @@ export default function HomePage() {
           {/* Right: CTA */}
           <Link
             href="/products"
-            className="bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-xs tracking-widest uppercase px-7 py-3 rounded-full shadow-lg shadow-orange-500/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 whitespace-nowrap"
+            className="relative group overflow-hidden bg-gradient-to-r from-orange-500 to-amber-500 text-white font-black text-xs tracking-widest uppercase px-8 py-3.5 rounded-xl shadow-lg shadow-orange-500/15 hover:shadow-orange-500/30 active:scale-95 transition-all duration-300 text-center whitespace-nowrap"
           >
-            Shop the Sale
+            <span className="relative z-10">Shop the Sale</span>
+            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
           </Link>
         </div>
       </div>
@@ -146,13 +153,13 @@ export default function HomePage() {
           {/* Banner 1 */}
           <div className="relative h-72 rounded-2xl overflow-hidden group">
             <Image
-              src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80"
+              src="https://plus.unsplash.com/premium_photo-1731287745128-6bdc3f050fa5?q=80&w=1170"
               alt="Beach Ready"
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/20" />
             <div className="absolute bottom-6 left-6 z-10">
               <span className="bg-white text-gray-900 text-xs font-black uppercase px-3 py-1 rounded-sm mb-2 inline-block">
                 Beach Ready
@@ -160,7 +167,7 @@ export default function HomePage() {
               <div className="flex gap-2 mt-2">
                 <Link
                   href="/products"
-                  className="bg-orange-500 text-white text-xs font-bold px-4 py-1.5 rounded-full hover:bg-orange-600 transition"
+                  className="bg-orange-500 text-white text-xs font-bold px-4 py-1.5 rounded-full hover:bg-white hover:text-orange-500 border border-transparent hover:border-orange-500 transition duration-300"
                 >
                   Shop Now
                 </Link>
@@ -171,13 +178,13 @@ export default function HomePage() {
           {/* Banner 2 */}
           <div className="relative h-72 rounded-2xl overflow-hidden group">
             <Image
-              src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80"
+              src="https://plus.unsplash.com/premium_photo-1694475574403-d24268584350?q=80&w=1170"
               alt="Gift Cards"
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/20" />
             <div className="absolute bottom-6 left-6 z-10">
               <p className="text-white text-xs uppercase font-semibold mb-1">
                 Help Support Local Business by Buying a Gift Card
@@ -209,17 +216,17 @@ export default function HomePage() {
               {
                 name: "Accessories",
                 image:
-                  "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&q=80",
+                  "https://images.unsplash.com/photo-1719386218764-1c1acd72a1a4?w=600",
               },
               {
                 name: "Clothing",
                 image:
-                  "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&q=80",
+                  "https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?q=80&w=688",
               },
               {
                 name: "Skincare",
                 image:
-                  "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&q=80",
+                  "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=735",
               },
               {
                 name: "Footwear",
@@ -321,44 +328,54 @@ export default function HomePage() {
       </div>
 
       {/* Trust Badges */}
-      <div className="border-t border-b border-gray-100 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              {
-                icon: <FiTruck size={28} />,
-                label: "Free Delivery",
-                sub: "On orders over $50",
-              },
-              {
-                icon: <FiAward size={28} />,
-                label: "Top Brand",
-                sub: "100% authentic products",
-              },
-              {
-                icon: <FiCreditCard size={28} />,
-                label: "Pay on Delivery",
-                sub: "Cash on delivery available",
-              },
-              {
-                icon: <FiShield size={28} />,
-                label: "Secure Payment",
-                sub: "256-bit SSL encryption",
-              },
-            ].map((item) => (
-              <div key={item.label} className="flex items-center gap-4 p-4">
-                <div className="text-orange-500">{item.icon}</div>
-                <div>
-                  <p className="font-bold text-gray-900 text-sm uppercase tracking-wide">
-                    {item.label}
-                  </p>
-                  <p className="text-gray-400 text-xs">{item.sub}</p>
-                </div>
-              </div>
-            ))}
+<div className="border-y border-gray-100 bg-gray-50/50 py-10">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {/* Grid mapping customized with modern auto-fluid columns */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      {[
+        {
+          icon: <FiTruck size={24} />,
+          label: "Free Delivery",
+          sub: "On orders over $50",
+        },
+        {
+          icon: <FiAward size={24} />,
+          label: "Top Brand",
+          sub: "100% authentic products",
+        },
+        {
+          icon: <FiCreditCard size={24} />,
+          label: "Pay on Delivery",
+          sub: "Cash on delivery available",
+        },
+        {
+          icon: <FiShield size={24} />,
+          label: "Secure Payment",
+          sub: "256-bit SSL encryption",
+        },
+      ].map((item) => (
+        <div 
+          key={item.label} 
+          className="flex items-center gap-4.5 p-5 bg-white border border-gray-100 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.03)] hover:-translate-y-0.5 transition-all duration-300 group"
+        >
+          {/* Animated custom icon wrap block */}
+          <div className="w-12 h-12 rounded-xl bg-orange-50/70 border border-orange-100/40 flex items-center justify-center text-orange-500 shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
+            {item.icon}
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="font-extrabold text-gray-900 text-xs uppercase tracking-widest leading-none mb-1">
+              {item.label}
+            </p>
+            <p className="text-gray-400 text-[11px] font-medium leading-tight">
+              {item.sub}
+            </p>
           </div>
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
+</div>
+
 
       {/* Popular Products */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
