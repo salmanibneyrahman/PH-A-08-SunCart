@@ -129,57 +129,24 @@ export default function HomePage() {
         >
           {/* Left: Badge + Text */}
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <div
-              style={{
-                backgroundColor: "#f97316",
-                borderRadius: "12px",
-                padding: "10px 12px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <FaFire color="#ffffff" size={20} />
+            <div className="bg-orange-500 rounded-xl p-2.5 flex items-center justify-center shadow-md shadow-orange-500/10">
+              <FaFire className="text-white" size={20} />
             </div>
+
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "2px" }}>
-                <span
-                  style={{
-                    color: "#f97316",
-                    fontSize: "11px",
-                    fontWeight: "800",
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                  }}
-                >
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-orange-500 text-[11px] font-extrabold tracking-widest uppercase">
                   Limited Time
                 </span>
-                <span
-                  style={{
-                    backgroundColor: "#f97316",
-                    color: "#ffffff",
-                    fontSize: "10px",
-                    fontWeight: "700",
-                    padding: "2px 8px",
-                    borderRadius: "9999px",
-                    letterSpacing: "0.06em",
-                    textTransform: "uppercase",
-                  }}
-                >
+                <span className="bg-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wider uppercase">
                   Live Now
                 </span>
               </div>
-              <p
-                style={{
-                  color: "#ffffff",
-                  fontWeight: "900",
-                  fontSize: "20px",
-                  lineHeight: "1",
-                }}
-              >
+              <p className="text-white font-black text-xl leading-none">
                 Flash Sale &mdash; Extra 20% OFF
               </p>
             </div>
+
           </div>
 
           {/* Center: Offer pills */}
@@ -349,7 +316,7 @@ export default function HomePage() {
       {/* Wide Banner */}
       <div className="relative h-56 md:h-72 overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1777768785334-1439beaaf33a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="https://images.unsplash.com/photo-1777768785334-1439beaaf33a?q=80&w=1170"
           alt="Summer Accessories"
           fill
           className="object-cover"

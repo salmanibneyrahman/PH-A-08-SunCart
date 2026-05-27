@@ -28,7 +28,7 @@ const slides = [
     subtitle: "Discover the latest summer collection curated just for you",
     tag: "New Collection",
     cta: "View Collection",
-    image: "https://images.unsplash.com/photo-1473496169904-658ba7574b0d?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?q=80&w=1172",
   },
 ];
 
@@ -68,7 +68,7 @@ export default function HeroSlider() {
       </div>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-black/20" />
 
       {/* Content */}
       <div className="absolute inset-0 flex items-center justify-end px-8 md:px-20 animate__animated animate__fadeIn">
@@ -111,9 +111,8 @@ export default function HeroSlider() {
           <button
             key={i}
             onClick={() => goTo(i)}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              i === current ? "bg-orange-500 w-6" : "bg-white/50"
-            }`}
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === current ? "bg-orange-500 w-6" : "bg-white/50"
+              }`}
           />
         ))}
       </div>
