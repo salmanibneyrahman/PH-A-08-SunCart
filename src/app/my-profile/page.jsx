@@ -72,7 +72,8 @@ export default async function MyProfilePage() {
         </Link>
 
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-          <div className="h-40 bg-gradient-to-r from-orange-400 via-orange-500 to-pink-500 relative">
+          {/* Cover */}
+          <div className="h-48 bg-gradient-to-r from-orange-400 via-orange-500 to-pink-500 relative">
             <div
               className="absolute inset-0 opacity-20"
               style={{
@@ -84,34 +85,39 @@ export default async function MyProfilePage() {
           </div>
 
           <div className="px-8 pb-8">
-            <div className="relative -mt-16 mb-5 flex items-end justify-between">
-              <div className="w-28 h-28 rounded-full border-4 border-white overflow-hidden bg-white shadow-md">
+            {/* Avatar Centered, Resized to w-44 h-44 and Content Reordered */}
+            <div className="relative -mt-24 mb-8 flex flex-col items-center justify-center text-center">
+              <div className="w-44 h-44 rounded-full border-4 border-white overflow-hidden bg-white shadow-xl mb-4">
                 {user.image ? (
                   <Image
                     src={user.image}
                     alt={user.name || "User"}
-                    width={112}
-                    height={112}
+                    width={176}
+                    height={176}
                     className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-orange-50">
-                    <FaUserCircle size={72} className="text-orange-400" />
+                    <FaUserCircle size={120} className="text-orange-400" />
                   </div>
                 )}
               </div>
+
+              {/* Name and Email moved ABOVE the update button */}
+              <h1 className="text-3xl font-black text-gray-900 mb-1 tracking-tight">{user.name}</h1>
+              <p className="text-gray-500 text-sm font-medium mb-5">{user.email}</p>
+
+              {/* Update Button under the Name & Email */}
               <Link
                 href="/my-profile/update"
-                className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold uppercase tracking-widest px-5 py-2.5 rounded-full transition"
+                className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-full shadow-md shadow-orange-500/10 active:scale-95 transition-all duration-200"
               >
                 <FiEdit3 size={14} />
                 Update Profile
               </Link>
             </div>
 
-            <h1 className="text-2xl font-black text-gray-900 mb-1">{user.name}</h1>
-            <p className="text-gray-500 text-sm mb-6">{user.email}</p>
-
+            {/* Stats Row */}
             <div className="grid grid-cols-3 gap-4 mb-8">
               {stats.map((stat) => (
                 <div
@@ -126,6 +132,7 @@ export default async function MyProfilePage() {
               ))}
             </div>
 
+            {/* Profile Information details mapping */}
             <div className="space-y-4">
               <h2 className="text-base font-black text-gray-900 uppercase tracking-widest mb-4">
                 Profile Information
@@ -149,29 +156,6 @@ export default async function MyProfilePage() {
             </div>
           </div>
         </div>
-
-        {user.image && (
-          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-base font-black text-gray-900 uppercase tracking-widest mb-4">
-              Profile Photo
-            </h2>
-            <div className="flex items-center gap-5">
-              <Image
-                src={user.image}
-                alt={user.name || "User"}
-                width={80}
-                height={80}
-                className="rounded-2xl object-cover border border-gray-200"
-              />
-              <div>
-                <p className="text-sm text-gray-600 font-medium mb-1">
-                  Current profile photo
-                </p>
-                <p className="text-xs text-gray-400 break-all">{user.image}</p>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
