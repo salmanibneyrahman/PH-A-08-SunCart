@@ -24,7 +24,7 @@ const slides = [
   },
   {
     id: 3,
-    title: "New Arrivals 2024",
+    title: "New Arrivals 2026",
     subtitle: "Discover the latest summer collection curated just for you",
     tag: "New Collection",
     cta: "View Collection",

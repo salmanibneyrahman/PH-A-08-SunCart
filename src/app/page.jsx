@@ -349,7 +349,7 @@ export default function HomePage() {
       {/* Wide Banner */}
       <div className="relative h-56 md:h-72 overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1527799820374-87036dcd41bd?w=1400&q=80"
+          src="https://images.unsplash.com/photo-1777768785334-1439beaaf33a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Summer Accessories"
           fill
           className="object-cover"
