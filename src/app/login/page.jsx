@@ -50,8 +50,7 @@ function LoginForm() {
         toast.error(result.error.message || "Login failed");
       } else {
         toast.success("Welcome back!");
-        router.push(callbackUrl);
-        router.refresh();
+        window.location.href = callbackUrl; 
       }
     } catch (err) {
       setServerError("Something went wrong. Please try again.");

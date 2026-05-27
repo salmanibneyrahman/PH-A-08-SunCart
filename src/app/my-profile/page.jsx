@@ -13,6 +13,11 @@ import {
 } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 
+function getMemberYear(createdAt) {
+  if (!createdAt) return new Date().getFullYear();
+  return new Date(createdAt).getFullYear();
+}
+
 export default async function MyProfilePage() {
   const session = await auth.api.getSession({ headers: await headers() });
 
@@ -21,11 +26,44 @@ export default async function MyProfilePage() {
   }
 
   const user = session.user;
+  const memberYear = getMemberYear(user.createdAt);
+
+  const stats = [
+    { label: "Member Since", value: memberYear },
+    { label: "Account Type", value: "Standard" },
+    { label: "Status", value: "Active" },
+  ];
+
+  const profileDetails = [
+    {
+      icon: <FiUser className="text-orange-500" size={16} />,
+      label: "Full Name",
+      value: user.name,
+      valueClass: "text-gray-900 font-semibold text-sm",
+    },
+    {
+      icon: <FiMail className="text-orange-500" size={16} />,
+      label: "Email Address",
+      value: user.email,
+      valueClass: "text-gray-900 font-semibold text-sm",
+    },
+    {
+      icon: <FiShield className="text-orange-500" size={16} />,
+      label: "Account Status",
+      value: "Verified & Active",
+      valueClass: "text-green-600 font-semibold text-sm",
+    },
+    {
+      icon: <FiCalendar className="text-orange-500" size={16} />,
+      label: "User ID",
+      value: user.id ? `${user.id.substring(0, 16)}...` : "N/A",
+      valueClass: "text-gray-900 font-semibold text-sm font-mono",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-3xl mx-auto">
-        {/* Back */}
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-orange-500 mb-8 transition"
@@ -33,9 +71,7 @@ export default async function MyProfilePage() {
           <FiArrowLeft size={16} /> Back to Home
         </Link>
 
-        {/* Profile Card */}
         <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-          {/* Cover */}
           <div className="h-40 bg-gradient-to-r from-orange-400 via-orange-500 to-pink-500 relative">
             <div
               className="absolute inset-0 opacity-20"
@@ -48,7 +84,6 @@ export default async function MyProfilePage() {
           </div>
 
           <div className="px-8 pb-8">
-            {/* Avatar */}
             <div className="relative -mt-16 mb-5 flex items-end justify-between">
               <div className="w-28 h-28 rounded-full border-4 border-white overflow-hidden bg-white shadow-md">
                 {user.image ? (
@@ -74,20 +109,11 @@ export default async function MyProfilePage() {
               </Link>
             </div>
 
-            {/* Name and Email */}
             <h1 className="text-2xl font-black text-gray-900 mb-1">{user.name}</h1>
             <p className="text-gray-500 text-sm mb-6">{user.email}</p>
 
-            {/* Stats Row */}
             <div className="grid grid-cols-3 gap-4 mb-8">
-              {[
-                {
-                  label: "Member Since",
-                  value: new Date(user.createdAt || Date.now()).getFullYear(),
-                },
-                { label: "Account Type", value: "Standard" },
-                { label: "Status", value: "Active" },
-              ].map((stat) => (
+              {stats.map((stat) => (
                 <div
                   key={stat.label}
                   className="bg-gray-50 rounded-2xl p-4 text-center border border-gray-100"
@@ -100,68 +126,30 @@ export default async function MyProfilePage() {
               ))}
             </div>
 
-            {/* Profile Details */}
             <div className="space-y-4">
               <h2 className="text-base font-black text-gray-900 uppercase tracking-widest mb-4">
                 Profile Information
               </h2>
-
-              <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-                  <FiUser className="text-orange-500" size={16} />
+              {profileDetails.map((detail) => (
+                <div
+                  key={detail.label}
+                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100"
+                >
+                  <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center shrink-0">
+                    {detail.icon}
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 uppercase tracking-widest font-medium">
+                      {detail.label}
+                    </p>
+                    <p className={detail.valueClass}>{detail.value}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs text-gray-400 uppercase tracking-widest font-medium">
-                    Full Name
-                  </p>
-                  <p className="text-gray-900 font-semibold text-sm">{user.name}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-                  <FiMail className="text-orange-500" size={16} />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400 uppercase tracking-widest font-medium">
-                    Email Address
-                  </p>
-                  <p className="text-gray-900 font-semibold text-sm">{user.email}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-                  <FiShield className="text-orange-500" size={16} />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400 uppercase tracking-widest font-medium">
-                    Account Status
-                  </p>
-                  <p className="text-green-600 font-semibold text-sm">
-                    Verified & Active
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-                  <FiCalendar className="text-orange-500" size={16} />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400 uppercase tracking-widest font-medium">
-                    User ID
-                  </p>
-                  <p className="text-gray-900 font-semibold text-sm font-mono">
-                    {user.id?.substring(0, 16)}...
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Photo Preview */}
         {user.image && (
           <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
             <h2 className="text-base font-black text-gray-900 uppercase tracking-widest mb-4">
