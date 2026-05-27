@@ -80,55 +80,14 @@ export default function HomePage() {
       <HeroSlider />
 
       {/* Flash Sale Strip - Aesthetic redesign without countdown */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #111827 0%, #1f2937 50%, #111827 100%)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-gray-800 to-gray-950">
         {/* Background decorative circles */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-40px",
-            left: "-40px",
-            width: "200px",
-            height: "200px",
-            borderRadius: "9999px",
-            backgroundColor: "#f97316",
-            opacity: "0.05",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-60px",
-            right: "10%",
-            width: "250px",
-            height: "250px",
-            borderRadius: "9999px",
-            backgroundColor: "#f97316",
-            opacity: "0.05",
-          }}
-        />
+        <div className="absolute -top-10 -left-10 w-48 h-48 rounded-full bg-orange-500 opacity-5" />
+        <div className="absolute -bottom-16 right-[10%] w-60 h-60 rounded-full bg-orange-500 opacity-5" />
 
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "24px 24px",
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "16px",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-6 flex flex-wrap items-center justify-between gap-4">
           {/* Left: Badge + Text */}
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <div className="flex items-center gap-4">
             <div className="bg-orange-500 rounded-xl p-2.5 flex items-center justify-center shadow-md shadow-orange-500/10">
               <FaFire className="text-white" size={20} />
             </div>
@@ -146,11 +105,10 @@ export default function HomePage() {
                 Flash Sale &mdash; Extra 20% OFF
               </p>
             </div>
-
           </div>
 
           {/* Center: Offer pills */}
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          <div className="flex items-center gap-2.5 flex-wrap">
             {[
               { label: "All Sunglasses", discount: "20% OFF" },
               { label: "Skincare", discount: "15% OFF" },
@@ -158,21 +116,13 @@ export default function HomePage() {
             ].map((offer) => (
               <div
                 key={offer.label}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  backgroundColor: "rgba(255,255,255,0.07)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  borderRadius: "9999px",
-                  padding: "6px 14px",
-                }}
+                className="flex items-center gap-1.5 bg-white/5 border border-white/12 rounded-full px-3.5 py-1.5 hover:border-orange-500/30 transition-colors duration-300"
               >
-                <FiTag size={11} color="#f97316" />
-                <span style={{ color: "#d1d5db", fontSize: "12px", fontWeight: "500" }}>
+                <FiTag className="text-orange-500" size={11} />
+                <span className="text-gray-300 text-xs font-medium">
                   {offer.label}:
                 </span>
-                <span style={{ color: "#fb923c", fontSize: "12px", fontWeight: "800" }}>
+                <span className="text-orange-400 text-xs font-extrabold">
                   {offer.discount}
                 </span>
               </div>
@@ -182,25 +132,13 @@ export default function HomePage() {
           {/* Right: CTA */}
           <Link
             href="/products"
-            style={{
-              backgroundColor: "#f97316",
-              color: "#ffffff",
-              fontWeight: "800",
-              fontSize: "12px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              padding: "12px 28px",
-              borderRadius: "9999px",
-              textDecoration: "none",
-              boxShadow: "0 4px 14px rgba(249,115,22,0.4)",
-              transition: "all 0.2s",
-              whiteSpace: "nowrap",
-            }}
+            className="bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-xs tracking-widest uppercase px-7 py-3 rounded-full shadow-lg shadow-orange-500/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 whitespace-nowrap"
           >
             Shop the Sale
           </Link>
         </div>
       </div>
+
 
       {/* Two Banner Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
