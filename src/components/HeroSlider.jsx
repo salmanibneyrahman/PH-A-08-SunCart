@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react"; // useRef jog kora hoyeche
 import Link from "next/link";
 import Image from "next/image";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
@@ -35,20 +35,46 @@ const slides = [
 export default function HeroSlider() {
   const [current, setCurrent] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const timerRef = useRef(null);
+
+  const next = () => {
+    setCurrent((prev) => (prev + 1) % slides.length);
+  };
+
+  const prev = () => {
+    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
 
   const goTo = (index) => {
     if (animating) return;
     setAnimating(true);
-    setTimeout(() => setAnimating(false), 600);
     setCurrent(index);
+    setTimeout(() => setAnimating(false), 600);
   };
 
-  const prev = () => goTo((current - 1 + slides.length) % slides.length);
-  const next = () => goTo((current + 1) % slides.length);
+  const handleManualNext = () => {
+    if (animating) return;
+    goTo((current + 1) % slides.length);
+  };
 
+  const handleManualPrev = () => {
+    if (animating) return;
+    goTo((current - 1 + slides.length) % slides.length);
+  };
+
+  // 2. Real-time background continuous runtime garbage collection management
   useEffect(() => {
-    const timer = setInterval(next, 5000);
-    return () => clearInterval(timer);
+
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    timerRef.current = setInterval(() => {
+      next();
+    }, 4000); // 4 seconds delay auto slide profile
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, [current]);
 
   const slide = slides[current];
@@ -56,13 +82,13 @@ export default function HeroSlider() {
   return (
     <div className="relative w-full h-[480px] md:h-[580px] overflow-hidden">
       {/* Background Image */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0" key={`bg-${current}`}>
         <Image
           src={slide.image}
           alt={slide.title}
           fill
           priority
-          className="object-cover transition-all duration-700"
+          className="object-cover transition-all duration-700 animate__animated animate__fadeIn"
           sizes="100vw"
         />
       </div>
@@ -70,8 +96,11 @@ export default function HeroSlider() {
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/20" />
 
-      {/* Content */}
-      <div className="absolute inset-0 flex items-center justify-end px-8 md:px-20 animate__animated animate__fadeIn">
+      {/* Content Wrapper */}
+      <div
+        key={`content-${current}`}
+        className="absolute inset-0 flex items-center justify-end px-8 md:px-20 animate__animated animate__fadeInUp animate__slow"
+      >
         <div className="text-right max-w-xl">
           <span className="inline-block bg-orange-500 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
             {slide.tag}
@@ -91,22 +120,22 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      {/* Arrow Controls */}
+      {/* Arrow Controls with new manual lifecycle triggers */}
       <button
-        onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm flex items-center justify-center text-white transition"
+        onClick={handleManualPrev}
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm flex items-center justify-center text-white transition z-10"
       >
         <FiChevronLeft size={20} />
       </button>
       <button
-        onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm flex items-center justify-center text-white transition"
+        onClick={handleManualNext}
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm flex items-center justify-center text-white transition z-10"
       >
         <FiChevronRight size={20} />
       </button>
 
       {/* Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
         {slides.map((_, i) => (
           <button
             key={i}
