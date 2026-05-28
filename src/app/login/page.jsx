@@ -88,10 +88,10 @@ function LoginForm() {
 
         {/* Card */}
         <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-          <h2 className="text-2xl font-black text-gray-900 uppercase tracking-wide mb-1">
+          <h2 className="text-2xl font-black text-gray-900 uppercase tracking-wide mb-1 text-center">
             Welcome Back
           </h2>
-          <p className="text-gray-500 text-sm mb-7">
+          <p className="text-gray-500 text-sm mb-7 text-center">
             Sign in to your account to continue
           </p>
 

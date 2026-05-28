@@ -92,10 +92,10 @@ export default function RegisterPage() {
 
         {/* Card */}
         <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-          <h2 className="text-2xl font-black text-gray-900 uppercase tracking-wide mb-1">
+          <h2 className="text-2xl font-black text-gray-900 uppercase tracking-wide mb-1 text text-center">
             Create Account
           </h2>
-          <p className="text-gray-500 text-sm mb-7">
+          <p className="text-gray-500 text-sm mb-7 text-center">
             Join SunCart for the best summer deals
           </p>
 
