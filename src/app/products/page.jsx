@@ -5,6 +5,7 @@ import ProductCard from "@/components/ProductCard";
 import productsData from "../../../products.json";
 import { FiGrid, FiList, FiChevronDown } from "react-icons/fi";
 import Image from "next/image";
+import Link from "next/link";
 
 const categories = ["All", "Accessories", "Clothing", "Skincare", "Footwear"];
 
@@ -54,9 +55,9 @@ export default function ProductsPage() {
       <div className="bg-gray-50 border-b border-gray-100 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-xs text-gray-400 mb-3">
-            <a href="/" className="hover:text-orange-500 transition-colors">
+            <Link href="/" className="hover:text-orange-500 transition-colors">
               Home
-            </a>
+            </Link>
             <span>/</span>
             <span className="text-gray-700 font-semibold">Products</span>
           </nav>
