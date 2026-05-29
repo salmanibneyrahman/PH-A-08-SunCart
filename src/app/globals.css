@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 
-html {
+html:not([data-scroll-behavior="smooth"]) {
   scroll-behavior: smooth;
 }
 
