@@ -2,7 +2,7 @@ import HeroSlider from "@/components/HeroSlider";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import Image from "next/image";
-import productsData from "../../products.json";
+
 import {
   FiTruck,
   FiAward,
@@ -13,7 +13,20 @@ import {
 } from "react-icons/fi";
 import { FaFire } from "react-icons/fa";
 
-const popularProducts = productsData.slice(0, 3);
+
+
+async function getProducts() {
+  try {
+    const res = await fetch('https://suncart-website.onrender.com/products', {
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error('Failed to fetch products');
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return [];
+  }
+}
 
 const careTips = [
   {
@@ -73,7 +86,9 @@ const brands = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const productsData = await getProducts();
+  const popularProducts = productsData.slice(0, 3);
   return (
     <div>
       {/* Hero Slider */}
@@ -328,53 +343,53 @@ export default function HomePage() {
       </div>
 
       {/* Trust Badges */}
-<div className="border-y border-gray-100 bg-gray-50/50 py-10">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {/* Grid mapping customized with modern auto-fluid columns */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-      {[
-        {
-          icon: <FiTruck size={24} />,
-          label: "Free Delivery",
-          sub: "On orders over $50",
-        },
-        {
-          icon: <FiAward size={24} />,
-          label: "Top Brand",
-          sub: "100% authentic products",
-        },
-        {
-          icon: <FiCreditCard size={24} />,
-          label: "Pay on Delivery",
-          sub: "Cash on delivery available",
-        },
-        {
-          icon: <FiShield size={24} />,
-          label: "Secure Payment",
-          sub: "256-bit SSL encryption",
-        },
-      ].map((item) => (
-        <div 
-          key={item.label} 
-          className="flex items-center gap-4.5 p-5 bg-white border border-gray-100 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.03)] hover:-translate-y-0.5 transition-all duration-300 group"
-        >
-          {/* Animated custom icon wrap block */}
-          <div className="w-12 h-12 rounded-xl bg-orange-50/70 border border-orange-100/40 flex items-center justify-center text-orange-500 shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
-            {item.icon}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="font-extrabold text-gray-900 text-xs uppercase tracking-widest leading-none mb-1">
-              {item.label}
-            </p>
-            <p className="text-gray-400 text-[11px] font-medium leading-tight">
-              {item.sub}
-            </p>
+      <div className="border-y border-gray-100 bg-gray-50/50 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Grid mapping customized with modern auto-fluid columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              {
+                icon: <FiTruck size={24} />,
+                label: "Free Delivery",
+                sub: "On orders over $50",
+              },
+              {
+                icon: <FiAward size={24} />,
+                label: "Top Brand",
+                sub: "100% authentic products",
+              },
+              {
+                icon: <FiCreditCard size={24} />,
+                label: "Pay on Delivery",
+                sub: "Cash on delivery available",
+              },
+              {
+                icon: <FiShield size={24} />,
+                label: "Secure Payment",
+                sub: "256-bit SSL encryption",
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center gap-4.5 p-5 bg-white border border-gray-100 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.03)] hover:-translate-y-0.5 transition-all duration-300 group"
+              >
+                {/* Animated custom icon wrap block */}
+                <div className="w-12 h-12 rounded-xl bg-orange-50/70 border border-orange-100/40 flex items-center justify-center text-orange-500 shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
+                  {item.icon}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-extrabold text-gray-900 text-xs uppercase tracking-widest leading-none mb-1">
+                    {item.label}
+                  </p>
+                  <p className="text-gray-400 text-[11px] font-medium leading-tight">
+                    {item.sub}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-</div>
+      </div>
 
 
       {/* Popular Products */}

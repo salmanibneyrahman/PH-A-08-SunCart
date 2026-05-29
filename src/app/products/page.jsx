@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import ProductCard from "@/components/ProductCard";
-import productsData from "../../../products.json";
+
 import { FiGrid, FiList, FiChevronDown } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,6 +21,25 @@ export default function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [sortBy, setSortBy] = useState("best");
   const [viewMode, setViewMode] = useState("grid");
+  const [productsData, setProductsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await fetch('https://suncart-website.onrender.com/products');
+        if (!res.ok) throw new Error('Failed to fetch');
+        const data = await res.json();
+        setProductsData(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setProductsData([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
+  }, []);
 
   const filteredAndSorted = useMemo(() => {
     let result = [...productsData];
@@ -47,7 +66,15 @@ export default function ProductsPage() {
     }
 
     return result;
-  }, [activeCategory, sortBy]);
+  }, [activeCategory, sortBy, productsData]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-600">Loading products...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">

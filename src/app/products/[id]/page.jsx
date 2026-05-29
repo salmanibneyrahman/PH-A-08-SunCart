@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import productsData from "../../../../products.json";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -16,6 +15,19 @@ import {
 } from "react-icons/fi";
 import { FaFacebookF, FaTwitter, FaPinterestP } from "react-icons/fa";
 
+async function getProducts() {
+  try {
+    const res = await fetch('https://suncart-website.onrender.com/products', {
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error('Failed to fetch products');
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return [];
+  }
+}
+
 export default async function ProductDetailPage({ params }) {
   const { id } = await params;
   const session = await auth.api.getSession({ headers: await headers() });
@@ -24,6 +36,8 @@ export default async function ProductDetailPage({ params }) {
     redirect(`/login?callbackUrl=/products/${id}`);
   }
 
+
+  const productsData = await getProducts();
   const product = productsData.find((p) => p.id === parseInt(id));
 
   if (!product) {
@@ -97,9 +111,8 @@ export default async function ProductDetailPage({ params }) {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className={`relative w-20 h-24 rounded-xl overflow-hidden border-2 cursor-pointer ${
-                    i === 1 ? "border-orange-500" : "border-gray-200 opacity-60"
-                  }`}
+                  className={`relative w-20 h-24 rounded-xl overflow-hidden border-2 cursor-pointer ${i === 1 ? "border-orange-500" : "border-gray-200 opacity-60"
+                    }`}
                 >
                   <Image
                     src={product.image}
@@ -157,14 +170,12 @@ export default async function ProductDetailPage({ params }) {
             {/* Stock */}
             <div className="flex items-center gap-2 mb-6">
               <div
-                className={`w-2.5 h-2.5 rounded-full ${
-                  product.stock > 5 ? "bg-green-500" : "bg-red-500"
-                }`}
+                className={`w-2.5 h-2.5 rounded-full ${product.stock > 5 ? "bg-green-500" : "bg-red-500"
+                  }`}
               />
               <p
-                className={`text-sm font-medium ${
-                  product.stock > 5 ? "text-green-600" : "text-red-500"
-                }`}
+                className={`text-sm font-medium ${product.stock > 5 ? "text-green-600" : "text-red-500"
+                  }`}
               >
                 {product.stock > 5
                   ? `In stock (${product.stock} units), ready to be shipped`
