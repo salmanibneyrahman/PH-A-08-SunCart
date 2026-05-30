@@ -49,26 +49,31 @@ const brands = [
     tagline: "Premium UV Protection",
     bg: "bg-orange-500",
     icon: "S",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-46RlbDNGXhnpXDlTr7oYn41lz_IuSV2DFQ&s"
   },
   {
     name: "GlowSafe",
     tagline: "Trusted Skincare Brand",
     bg: "bg-pink-500",
     icon: "G",
+    logo: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/335b26116886101.606b5fd16e0b5.jpg"
   },
   {
-    name: "CoastalCo",
+    name: "Tommy Bahama",
     tagline: "Beach Lifestyle Essentials",
     bg: "bg-blue-500",
     icon: "C",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMfj1LwLiShQwVUBdYysbDG4gODOowBwJ2nQ&s"
   },
   {
-    name: "WaveRider",
+    name: "BILLABONG",
     tagline: "Surf & Sport Gear",
     bg: "bg-teal-500",
     icon: "W",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8tBxGV90BR85YHTnYGSwyuns6LMbRn1tAUw&s"
   },
 ];
+
 
 export default async function HomePage() {
   const res = await fetch("https://suncart-website.onrender.com/products");
@@ -208,39 +213,77 @@ export default async function HomePage() {
         </div>
       </div>
       {/* Top Brands */}
-      <div className="py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-black text-gray-900 uppercase tracking-wide mb-3">
-              Top Brands
-            </h2>
-            <p className="text-gray-500 text-sm">
-              We partner with the best brands to bring you premium summer
-              essentials
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {brands.map((brand) => (
+      {/* Top Brands — Continuous Marquee Carousel with Premium Glassmorphism Theme (White Filled Cards) */}
+      <div className="py-16 bg-gradient-to-b from-gray-900 via-gray-950 to-gray-900 border-y border-gray-800 overflow-hidden relative z-10">
+
+        {/* Glassmorphic Background Glow Base Layout */}
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-80 h-32 bg-orange-500/10 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-32 bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center relative z-10">
+          <h2 className="text-3xl font-black text-white uppercase tracking-wide mb-3">
+            Top Brands
+          </h2>
+          <p className="text-gray-400 text-sm max-w-md mx-auto">
+            We partner with the best brands to bring you premium summer essentials
+          </p>
+        </div>
+
+        {/* Infinite Marquee Track Wrapper Container */}
+        <div className="relative w-full flex overflow-hidden pt-8 pb-4 relative z-20">
+
+          {/* 🚀 First Animated Row Stream (Pure White Filled Cards for Maximum Contrast) */}
+          <div className="animate-[marquee_25s_linear_infinite] flex whitespace-nowrap gap-6 shrink-0 min-w-full justify-around [animation-play-state:running] group-hover:[animation-play-state:paused]">
+            {brands.map((brand, idx) => (
               <div
-                key={brand.name}
-                className="bg-white rounded-2xl p-6 text-center border border-gray-100 shadow-sm hover:shadow-md transition group"
+                key={`brand-glass-1-${idx}`}
+                className="inline-flex flex-col items-center justify-center bg-white rounded-2xl p-6 text-center w-52 md:w-60 select-none transition-all duration-300 transform hover:-translate-y-4 shrink-0 shadow-lg border border-gray-100 hover:shadow-orange-500/10 hover:border-orange-500/30"
               >
-                <div
-                  className={`${brand.bg} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`}
-                >
-                  <span className="text-white text-3xl font-black">
-                    {brand.icon}
-                  </span>
+                {/* Logo Frame — Inside White Card */}
+                <div className="relative w-28 h-16 mb-4 flex items-center justify-center mx-auto">
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    fill
+                    className="object-contain"
+                    sizes="150px"
+                  />
                 </div>
-                <h3 className="font-black text-gray-900 text-lg mb-1 uppercase">
+                {/* 🚀 Dark text colors for high readability on crisp white background */}
+                <h3 className="font-black text-gray-900 text-base mb-1 uppercase tracking-wider">
                   {brand.name}
                 </h3>
-                <p className="text-gray-500 text-xs">{brand.tagline}</p>
+                <p className="text-gray-500 text-xs font-semibold whitespace-normal text-center max-w-[200px]">
+                  {brand.tagline}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* 🚀 Second Duplicate Row Stream (Seamless Loop Boundary Synchronization) */}
+          <div className="animate-[marquee_25s_linear_infinite] flex whitespace-nowrap gap-6 shrink-0 min-w-full justify-around [animation-play-state:running] group-hover:[animation-play-state:paused]" aria-hidden="true">
+            {brands.map((brand, idx) => (
+              <div
+                key={`brand-glass-2-${idx}`}
+                className="inline-flex flex-col items-center justify-center bg-white rounded-2xl p-6 text-center w-52 md:w-60 select-none transition-all duration-300 transform hover:-translate-y-4 shrink-0 shadow-lg border border-gray-100 hover:shadow-orange-500/10 hover:border-orange-500/30"
+              >
+                <div className="relative w-28 h-16 mb-4 flex items-center justify-center mx-auto">
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    fill
+                    className="object-contain"
+                    sizes="150px"
+                  />
+                </div>
+                <h3 className="font-black text-gray-900 text-base mb-1 uppercase tracking-wider">{brand.name}</h3>
+                <p className="text-gray-500 text-xs font-semibold whitespace-normal text-center max-w-[200px]">{brand.tagline}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
+
       {/* Discount Banners */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
