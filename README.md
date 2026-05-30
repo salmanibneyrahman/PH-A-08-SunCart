@@ -45,7 +45,7 @@ A high-performance, full-stack e-commerce platform built with Next.js 14, featur
 ## 🛠️ Tech Stack
 
 ```
-Frontend Framework    →  Next.js 14 (App Router)
+Frontend Framework   →  Next.js 14 (App Router)
 UI Library           →  React 18
 Styling              →  Tailwind CSS, DaisyUI
 Authentication       →  Better-Auth
@@ -79,43 +79,6 @@ npm run dev
 NEXT_PUBLIC_API_URL=https://suncart-website.onrender.com
 BETTER_AUTH_SECRET=your-secret-key
 BETTER_AUTH_URL=http://localhost:3000
-```
-
-## 🏗️ Architecture
-
-```
-src/
-├── app/
-│   ├── page.jsx                 # Homepage with featured products
-│   ├── products/
-│   │   ├── page.jsx             # Product catalog with filtering
-│   │   └── [id]/page.jsx        # Dynamic product details
-│   └── login/page.jsx           # Authentication
-├── components/
-│   ├── HeroSlider.jsx           # Homepage carousel
-│   ├── ProductCard.jsx          # Reusable product card
-│   ├── Marquee.jsx              # Continuous scrolling component
-│   └── Navbar.jsx               # Navigation with cart
-└── lib/
-    └── auth.js                  # Authentication configuration
-```
-
-## 🔌 API Integration
-
-**Endpoint:** `https://suncart-website.onrender.com/products`
-
-**Implementation:**
-```javascript
-// Server Component (SSR)
-async function getProducts() {
-  const res = await fetch(API_URL, { cache: 'no-store' });
-  return res.json();
-}
-
-// Client Component (CSR)
-useEffect(() => {
-  fetch(API_URL).then(res => res.json()).then(setProducts);
-}, []);
 ```
 
 ## 🎯 Performance Optimizations
