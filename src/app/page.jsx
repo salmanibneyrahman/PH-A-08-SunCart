@@ -148,234 +148,11 @@ export default async function HomePage() {
           </Link>
         </div>
       </div>
-      {/* Two Banner Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Banner 1 */}
-          <div className="relative h-72 rounded-2xl overflow-hidden group">
-            <Image
-              src="https://plus.unsplash.com/premium_photo-1731287745128-6bdc3f050fa5?q=80&w=1170"
-              alt="Beach Ready"
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            <div className="absolute inset-0 bg-black/20" />
-            <div className="absolute bottom-6 left-6 z-10">
-              <span className="bg-white text-gray-900 text-xs font-black uppercase px-3 py-1 rounded-sm mb-2 inline-block">
-                Beach Ready
-              </span>
-              <div className="flex gap-2 mt-2">
-                <Link
-                  href="/products"
-                  className="bg-orange-500 text-white text-xs font-bold px-4 py-1.5 rounded-full hover:bg-white hover:text-orange-500 border border-transparent hover:border-orange-500 transition duration-300"
-                >
-                  Shop Now
-                </Link>
-              </div>
-            </div>
-          </div>
-          {/* Banner 2 */}
-          <div className="relative h-72 rounded-2xl overflow-hidden group">
-            <Image
-              src="https://plus.unsplash.com/premium_photo-1694475574403-d24268584350?q=80&w=1170"
-              alt="Gift Cards"
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            <div className="absolute inset-0 bg-black/20" />
-            <div className="absolute bottom-6 left-6 z-10">
-              <p className="text-white text-xs uppercase font-semibold mb-1">
-                Help Support Local Business by Buying a Gift Card
-              </p>
-              <span className="bg-orange-500 text-white text-xs font-black uppercase px-3 py-1 rounded-sm mb-2 inline-block">
-                Gift Cards
-              </span>
-              <div className="mt-2">
-                <Link
-                  href="/products"
-                  className="bg-white text-gray-900 text-xs font-bold px-4 py-1.5 rounded-full hover:bg-orange-500 hover:text-white transition"
-                >
-                  Shop Gift Cards
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Shop By Category */}
-      <div className="bg-gray-50 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-3xl font-black text-gray-900 mb-8 uppercase tracking-wide">
-            Shop By Category
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              {
-                name: "Accessories",
-                image:
-                  "https://images.unsplash.com/photo-1719386218764-1c1acd72a1a4?w=600",
-              },
-              {
-                name: "Clothing",
-                image:
-                  "https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?q=80&w=688",
-              },
-              {
-                name: "Skincare",
-                image:
-                  "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=735",
-              },
-              {
-                name: "Footwear",
-                image:
-                  "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400&q=80",
-              },
-            ].map((cat) => (
-              <Link
-                key={cat.name}
-                href="/products"
-                className="group relative rounded-2xl overflow-hidden aspect-square"
-              >
-                <Image
-                  src={cat.image}
-                  alt={cat.name}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 640px) 50vw, 25vw"
-                />
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="bg-white text-gray-900 text-xs font-black uppercase tracking-widest px-4 py-2 rounded-sm">
-                    {cat.name}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-      {/* Wide Banner */}
-      <div className="relative h-56 md:h-72 overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1777768785334-1439beaaf33a?q=80&w=1170"
-          alt="Summer Accessories"
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 flex items-center justify-end px-8 md:px-20">
-          <div className="text-right">
-            <p className="text-orange-400 text-xs uppercase font-bold tracking-widest mb-2">
-              Summer Accessories
-            </p>
-            <h3 className="text-white text-3xl md:text-5xl font-black mb-4">
-              BEACH ESSENTIALS
-            </h3>
-            <p className="text-white/70 text-sm mb-5">
-              Set the perfect look for your summer adventures.
-            </p>
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 bg-white text-gray-900 text-sm font-bold uppercase px-6 py-2.5 rounded-full hover:bg-orange-500 hover:text-white transition"
-            >
-              Shop Now <FiArrowRight />
-            </Link>
-          </div>
-        </div>
-      </div>
-      {/* Discount Banners */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-orange-500 rounded-2xl p-8 flex items-center justify-between">
-            <div>
-              <p className="text-white/80 text-xs uppercase font-semibold mb-1">
-                UPTO
-              </p>
-              <p className="text-white text-5xl font-black">50%</p>
-              <p className="text-white font-bold text-lg">OFF</p>
-              <p className="text-white/80 text-sm">on All Summer Collection</p>
-            </div>
-            <Link
-              href="/products"
-              className="bg-white text-orange-500 font-bold text-sm px-6 py-2.5 rounded-full hover:bg-gray-100 transition"
-            >
-              Shop Now
-            </Link>
-          </div>
-          <div className="bg-gray-900 rounded-2xl p-8 flex items-center justify-between">
-            <div>
-              <p className="text-gray-400 text-xs uppercase font-semibold mb-1">
-                UPTO
-              </p>
-              <p className="text-white text-5xl font-black">25%</p>
-              <p className="text-white font-bold text-lg">OFF</p>
-              <p className="text-gray-400 text-sm">on All New Arrivals</p>
-            </div>
-            <Link
-              href="/products"
-              className="bg-orange-500 text-white font-bold text-sm px-6 py-2.5 rounded-full hover:bg-orange-600 transition"
-            >
-              Shop Now
-            </Link>
-          </div>
-        </div>
-      </div>
-      {/* Trust Badges */}
-      <div className="border-y border-gray-100 bg-gray-50/50 py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Grid mapping customized with modern auto-fluid columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              {
-                icon: <FiTruck size={24} />,
-                label: "Free Delivery",
-                sub: "On orders over $50",
-              },
-              {
-                icon: <FiAward size={24} />,
-                label: "Top Brand",
-                sub: "100% authentic products",
-              },
-              {
-                icon: <FiCreditCard size={24} />,
-                label: "Pay on Delivery",
-                sub: "Cash on delivery available",
-              },
-              {
-                icon: <FiShield size={24} />,
-                label: "Secure Payment",
-                sub: "256-bit SSL encryption",
-              },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="flex items-center gap-4.5 p-5 bg-white border border-gray-100 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.03)] hover:-translate-y-0.5 transition-all duration-300 group"
-              >
-                {/* Animated custom icon wrap block */}
-                <div className="w-12 h-12 rounded-xl bg-orange-50/70 border border-orange-100/40 flex items-center justify-center text-orange-500 shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
-                  {item.icon}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="font-extrabold text-gray-900 text-xs uppercase tracking-widest leading-none mb-1">
-                    {item.label}
-                  </p>
-                  <p className="text-gray-400 text-[11px] font-medium leading-tight">
-                    {item.sub}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
       {/* Popular Products */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-3xl font-black text-gray-900 uppercase tracking-wide">
-            Featured Collection
+            POPULAR PRODUCTS
           </h2>
           <Link
             href="/products"
@@ -459,6 +236,143 @@ export default async function HomePage() {
                   {brand.name}
                 </h3>
                 <p className="text-gray-500 text-xs">{brand.tagline}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* Discount Banners */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-orange-500 rounded-2xl p-8 flex items-center justify-between">
+            <div>
+              <p className="text-white/80 text-xs uppercase font-semibold mb-1">
+                UPTO
+              </p>
+              <p className="text-white text-5xl font-black">50%</p>
+              <p className="text-white font-bold text-lg">OFF</p>
+              <p className="text-white/80 text-sm">on All Summer Collection</p>
+            </div>
+            <Link
+              href="/products"
+              className="bg-white text-orange-500 font-bold text-sm px-6 py-2.5 rounded-full hover:bg-gray-100 transition"
+            >
+              Shop Now
+            </Link>
+          </div>
+          <div className="bg-gray-900 rounded-2xl p-8 flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-xs uppercase font-semibold mb-1">
+                UPTO
+              </p>
+              <p className="text-white text-5xl font-black">25%</p>
+              <p className="text-white font-bold text-lg">OFF</p>
+              <p className="text-gray-400 text-sm">on All New Arrivals</p>
+            </div>
+            <Link
+              href="/products"
+              className="bg-orange-500 text-white font-bold text-sm px-6 py-2.5 rounded-full hover:bg-orange-600 transition"
+            >
+              Shop Now
+            </Link>
+          </div>
+        </div>
+      </div>
+      {/* Shop By Category */}
+      <div className="bg-gray-50 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-center text-3xl font-black text-gray-900 mb-8 uppercase tracking-wide">
+            Shop By Category
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              {
+                name: "Accessories",
+                image:
+                  "https://images.unsplash.com/photo-1719386218764-1c1acd72a1a4?w=600",
+              },
+              {
+                name: "Clothing",
+                image:
+                  "https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?q=80&w=688",
+              },
+              {
+                name: "Skincare",
+                image:
+                  "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=735",
+              },
+              {
+                name: "Footwear",
+                image:
+                  "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400&q=80",
+              },
+            ].map((cat) => (
+              <Link
+                key={cat.name}
+                href="/products"
+                className="group relative rounded-2xl overflow-hidden aspect-square"
+              >
+                <Image
+                  src={cat.image}
+                  alt={cat.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="bg-white text-gray-900 text-xs font-black uppercase tracking-widest px-4 py-2 rounded-sm">
+                    {cat.name}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* Trust Badges */}
+      <div className="border-y border-gray-100 bg-gray-50/50 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Grid mapping customized with modern auto-fluid columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              {
+                icon: <FiTruck size={24} />,
+                label: "Free Delivery",
+                sub: "On orders over $50",
+              },
+              {
+                icon: <FiAward size={24} />,
+                label: "Top Brand",
+                sub: "100% authentic products",
+              },
+              {
+                icon: <FiCreditCard size={24} />,
+                label: "Pay on Delivery",
+                sub: "Cash on delivery available",
+              },
+              {
+                icon: <FiShield size={24} />,
+                label: "Secure Payment",
+                sub: "256-bit SSL encryption",
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center gap-4.5 p-5 bg-white border border-gray-100 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.03)] hover:-translate-y-0.5 transition-all duration-300 group"
+              >
+                {/* Animated custom icon wrap block */}
+                <div className="w-12 h-12 rounded-xl bg-orange-50/70 border border-orange-100/40 flex items-center justify-center text-orange-500 shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
+                  {item.icon}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-extrabold text-gray-900 text-xs uppercase tracking-widest leading-none mb-1">
+                    {item.label}
+                  </p>
+                  <p className="text-gray-400 text-[11px] font-medium leading-tight">
+                    {item.sub}
+                  </p>
+                </div>
               </div>
             ))}
           </div>

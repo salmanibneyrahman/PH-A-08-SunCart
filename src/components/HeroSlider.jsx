@@ -24,7 +24,7 @@ const slides = [
   },
   {
     id: 3,
-    title: "New Arrivals 2026",
+    title: "UPTO 25% OFF On New Arrivals 2026",
     subtitle: "Discover the latest summer collection curated just for you",
     tag: "New Collection",
     cta: "View Collection",

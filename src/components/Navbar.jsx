@@ -25,11 +25,14 @@ export default function Navbar() {
     }
   };
 
-  const navLinks = [
+  const baseLinks = [
     { href: "/", label: "Home" },
     { href: "/products", label: "Products" },
-    { href: "/my-profile", label: "My Profile" },
   ];
+
+  const navLinks = session?.user 
+    ? [...baseLinks, { href: "/my-profile", label: "My Profile" }]
+    : baseLinks;
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">

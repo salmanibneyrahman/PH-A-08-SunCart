@@ -22,3 +22,13 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Globals.css er ekdom niche eita bashiye din mama, kono plugin lagbe na */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
