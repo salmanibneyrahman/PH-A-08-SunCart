@@ -90,11 +90,13 @@ export default function HeroSlider() {
           alt={slide.title}
           fill
           priority
-          onLoadingComplete={() => setImageLoaded(true)}
+          loading="eager"
+          onLoad={() => setImageLoaded(true)}
           className={`object-cover transition-opacity duration-1000 ease-in-out ${imageLoaded ? "opacity-100" : "opacity-0"
             }`}
           sizes="100vw"
         />
+
       </div>
 
       {/* Overlay */}
