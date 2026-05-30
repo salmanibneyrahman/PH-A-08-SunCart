@@ -2,7 +2,6 @@ import HeroSlider from "@/components/HeroSlider";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import Image from "next/image";
-
 import {
   FiTruck,
   FiAward,
@@ -12,21 +11,6 @@ import {
   FiTag,
 } from "react-icons/fi";
 import { FaFire } from "react-icons/fa";
-
-
-
-async function getProducts() {
-  try {
-    const res = await fetch('https://suncart-website.onrender.com/products', {
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('Failed to fetch products');
-    return res.json();
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    return [];
-  }
-}
 
 const careTips = [
   {
@@ -87,32 +71,32 @@ const brands = [
 ];
 
 export default async function HomePage() {
-  const productsData = await getProducts();
+  const res = await fetch("https://suncart-website.onrender.com/products");
+  const productsData = await res.json();
   const popularProducts = productsData.slice(0, 3);
+
   return (
     <div>
       {/* Hero Slider */}
       <HeroSlider />
-
       {/* Flash Sale Strip */}
       <div className="relative overflow-hidden bg-gray-900 border-y border-gray-800">
         <div className="absolute top-0 left-1/4 w-72 h-32 bg-orange-500/10 blur-[80px] rounded-full" />
         <div className="absolute bottom-0 right-1/4 w-96 h-32 bg-amber-500/10 blur-[100px] rounded-full" />
-
         {/* Subtle Background Pattern Mesh */}
         <div
           className="absolute inset-0 opacity-[0.02] pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '16px 16px' }}
+          style={{
+            backgroundImage: "radial-gradient(#fff 1px, transparent 1px)",
+            backgroundSize: "16px 16px",
+          }}
         />
-
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-
           {/* Left: Badge + Text */}
           <div className="flex items-center gap-4 shrink-0">
             <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/20 ring-4 ring-orange-500/10 animate-pulse">
               <FaFire className="text-white" size={18} />
             </div>
-
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <span className="text-orange-500 text-[10px] font-black tracking-[0.2em] uppercase">
@@ -123,11 +107,13 @@ export default async function HomePage() {
                 </span>
               </div>
               <p className="text-white font-black text-xl tracking-tight">
-                Flash Sale &mdash; <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">Extra 20% OFF</span>
+                Flash Sale &mdash;{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">
+                  Extra 20% OFF
+                </span>
               </p>
             </div>
           </div>
-
           {/* Center: Offer pills (Slick glassmorphism) */}
           <div className="flex items-center gap-3 flex-wrap">
             {[
@@ -139,7 +125,10 @@ export default async function HomePage() {
                 key={offer.label}
                 className="flex items-center gap-2 bg-white/[0.02] border border-white/[0.06] backdrop-blur-md rounded-full px-4 py-2 hover:border-orange-500/40 hover:bg-white/[0.04] transition-all duration-300 group"
               >
-                <FiTag className="text-gray-500 group-hover:text-orange-400 transition-colors" size={12} />
+                <FiTag
+                  className="text-gray-500 group-hover:text-orange-400 transition-colors"
+                  size={12}
+                />
                 <span className="text-gray-400 text-xs font-semibold tracking-wide">
                   {offer.label}:
                 </span>
@@ -149,7 +138,6 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-
           {/* Right: CTA */}
           <Link
             href="/products"
@@ -160,8 +148,6 @@ export default async function HomePage() {
           </Link>
         </div>
       </div>
-
-
       {/* Two Banner Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -189,7 +175,6 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-
           {/* Banner 2 */}
           <div className="relative h-72 rounded-2xl overflow-hidden group">
             <Image
@@ -219,7 +204,6 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
-
       {/* Shop By Category */}
       <div className="bg-gray-50 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -272,7 +256,6 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
-
       {/* Wide Banner */}
       <div className="relative h-56 md:h-72 overflow-hidden">
         <Image
@@ -303,7 +286,6 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
-
       {/* Discount Banners */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -341,7 +323,6 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
-
       {/* Trust Badges */}
       <div className="border-y border-gray-100 bg-gray-50/50 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -390,8 +371,6 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
-
-
       {/* Popular Products */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="flex items-center justify-between mb-8">
@@ -411,7 +390,6 @@ export default async function HomePage() {
           ))}
         </div>
       </div>
-
       {/* Summer Care Tips */}
       <div className="bg-gray-50 py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -452,7 +430,6 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
-
       {/* Top Brands */}
       <div className="py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -487,8 +464,6 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
-
-
     </div>
   );
 }

@@ -15,19 +15,6 @@ import {
 } from "react-icons/fi";
 import { FaFacebookF, FaTwitter, FaPinterestP } from "react-icons/fa";
 
-async function getProducts() {
-  try {
-    const res = await fetch('https://suncart-website.onrender.com/products', {
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('Failed to fetch products');
-    return res.json();
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    return [];
-  }
-}
-
 export default async function ProductDetailPage({ params }) {
   const { id } = await params;
   const session = await auth.api.getSession({ headers: await headers() });
@@ -36,9 +23,12 @@ export default async function ProductDetailPage({ params }) {
     redirect(`/login?callbackUrl=/products/${id}`);
   }
 
+  // Fetch data from API
+  const res = await fetch("https://suncart-website.onrender.com/products");
+  const productsData = await res.json();
 
-  const productsData = await getProducts();
-  const product = productsData.find((p) => p.id === parseInt(id));
+  // FIX: Converted both to Strings so it matches properly even if the API uses string IDs
+  const product = productsData.find((p) => String(p.id) === String(id));
 
   if (!product) {
     return (
@@ -48,7 +38,7 @@ export default async function ProductDetailPage({ params }) {
         </h1>
         <Link
           href="/products"
-          className="btn bg-orange-500 text-white border-none rounded-full"
+          className="btn bg-orange-500 text-white px-6 py-2 border-none rounded-full"
         >
           Back to Products
         </Link>
@@ -57,12 +47,16 @@ export default async function ProductDetailPage({ params }) {
   }
 
   const stars = Math.round(product.rating);
+  
+  // FIX: Also updated the relatedProducts check to handle string IDs safely
   const relatedProducts = productsData
-    .filter((p) => p.id !== product.id && p.category === product.category)
+    .filter((p) => String(p.id) !== String(product.id) && p.category === product.category)
     .slice(0, 4);
+
   const fallbackRelated = productsData
-    .filter((p) => p.id !== product.id)
+    .filter((p) => String(p.id) !== String(product.id))
     .slice(0, 4);
+
   const displayRelated =
     relatedProducts.length >= 2 ? relatedProducts : fallbackRelated;
 
@@ -72,9 +66,13 @@ export default async function ProductDetailPage({ params }) {
       <div className="bg-gray-50 border-b border-gray-100 py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-xs text-gray-500">
-            <Link href="/" className="hover:text-orange-500">Home</Link>
+            <Link href="/" className="hover:text-orange-500">
+              Home
+            </Link>
             <span>/</span>
-            <Link href="/products" className="hover:text-orange-500">Products</Link>
+            <Link href="/products" className="hover:text-orange-500">
+              Products
+            </Link>
             <span>/</span>
             <span className="text-gray-900 font-medium line-clamp-1">
               {product.name}
@@ -82,7 +80,6 @@ export default async function ProductDetailPage({ params }) {
           </nav>
         </div>
       </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Back Button */}
         <Link
@@ -91,7 +88,6 @@ export default async function ProductDetailPage({ params }) {
         >
           <FiArrowLeft size={16} /> Back to Products
         </Link>
-
         {/* Main Product Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-14">
           {/* Product Images */}
@@ -111,8 +107,9 @@ export default async function ProductDetailPage({ params }) {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className={`relative w-20 h-24 rounded-xl overflow-hidden border-2 cursor-pointer ${i === 1 ? "border-orange-500" : "border-gray-200 opacity-60"
-                    }`}
+                  className={`relative w-20 h-24 rounded-xl overflow-hidden border-2 cursor-pointer ${
+                    i === 1 ? "border-orange-500" : "border-gray-200 opacity-60"
+                  }`}
                 >
                   <Image
                     src={product.image}
@@ -125,7 +122,6 @@ export default async function ProductDetailPage({ params }) {
               ))}
             </div>
           </div>
-
           {/* Product Info */}
           <div>
             <p className="text-gray-400 text-xs uppercase tracking-widest mb-1">
@@ -134,7 +130,6 @@ export default async function ProductDetailPage({ params }) {
             <h1 className="text-3xl font-black text-gray-900 uppercase tracking-wide leading-tight mb-3">
               {product.name}
             </h1>
-
             {/* Rating */}
             <div className="flex items-center gap-2 mb-4">
               <div className="flex text-orange-400">
@@ -154,35 +149,33 @@ export default async function ProductDetailPage({ params }) {
                 {product.rating} out of 5
               </span>
             </div>
-
             {/* Price */}
             <p className="text-3xl font-black text-gray-900 mb-5">
               ${product.price}.00 USD
             </p>
-
             {/* Category Badge */}
             <div className="mb-5">
               <span className="inline-block bg-orange-100 text-orange-600 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
                 {product.category}
               </span>
             </div>
-
             {/* Stock */}
             <div className="flex items-center gap-2 mb-6">
               <div
-                className={`w-2.5 h-2.5 rounded-full ${product.stock > 5 ? "bg-green-500" : "bg-red-500"
-                  }`}
+                className={`w-2.5 h-2.5 rounded-full ${
+                  product.stock > 5 ? "bg-green-500" : "bg-red-500"
+                }`}
               />
               <p
-                className={`text-sm font-medium ${product.stock > 5 ? "text-green-600" : "text-red-500"
-                  }`}
+                className={`text-sm font-medium ${
+                  product.stock > 5 ? "text-green-600" : "text-red-500"
+                }`}
               >
                 {product.stock > 5
                   ? `In stock (${product.stock} units), ready to be shipped`
                   : `Low stock - only ${product.stock} left!`}
               </p>
             </div>
-
             {/* Quantity */}
             <div className="mb-6">
               <p className="text-sm font-bold text-gray-700 mb-2">Quantity</p>
@@ -190,13 +183,14 @@ export default async function ProductDetailPage({ params }) {
                 <button className="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 hover:border-orange-500 hover:text-orange-500 transition text-lg font-bold">
                   -
                 </button>
-                <span className="w-10 text-center font-bold text-gray-900">1</span>
+                <span className="w-10 text-center font-bold text-gray-900">
+                  1
+                </span>
                 <button className="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center text-gray-700 hover:border-orange-500 hover:text-orange-500 transition text-lg font-bold">
                   +
                 </button>
               </div>
             </div>
-
             {/* Buttons */}
             <div className="flex flex-col gap-3 mb-6">
               <button className="w-full bg-gray-900 hover:bg-orange-500 text-white font-bold uppercase tracking-widest py-3.5 rounded-full transition flex items-center justify-center gap-2">
@@ -207,23 +201,31 @@ export default async function ProductDetailPage({ params }) {
                 Buy It Now
               </button>
             </div>
-
             {/* Meta */}
             <div className="border-t border-gray-100 pt-5 space-y-2">
               <div className="flex items-center gap-3">
-                <span className="text-gray-500 text-sm w-20 font-medium">Vendor:</span>
-                <span className="text-gray-700 text-sm font-semibold">{product.brand}</span>
+                <span className="text-gray-500 text-sm w-20 font-medium">
+                  Vendor:
+                </span>
+                <span className="text-gray-700 text-sm font-semibold">
+                  {product.brand}
+                </span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-gray-500 text-sm w-20 font-medium">Type:</span>
-                <span className="text-gray-700 text-sm">{product.category}</span>
+                <span className="text-gray-500 text-sm w-20 font-medium">
+                  Type:
+                </span>
+                <span className="text-gray-700 text-sm">
+                  {product.category}
+                </span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-gray-500 text-sm w-20 font-medium">Brand:</span>
+                <span className="text-gray-500 text-sm w-20 font-medium">
+                  Brand:
+                </span>
                 <span className="text-gray-700 text-sm">{product.brand}</span>
               </div>
             </div>
-
             {/* Social Share */}
             <div className="flex items-center gap-3 mt-5">
               <span className="text-gray-500 text-sm font-medium">Share:</span>
@@ -243,7 +245,6 @@ export default async function ProductDetailPage({ params }) {
             </div>
           </div>
         </div>
-
         {/* Description */}
         <div className="border-t border-gray-100 pt-10 mb-14">
           <h2 className="text-xl font-black text-gray-900 uppercase tracking-wide mb-5">
@@ -253,7 +254,6 @@ export default async function ProductDetailPage({ params }) {
             {product.description}
           </p>
         </div>
-
         {/* Trust Badges */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 border border-gray-100 rounded-2xl p-6 mb-14">
           {[
@@ -262,7 +262,10 @@ export default async function ProductDetailPage({ params }) {
             { icon: <FiCreditCard size={24} />, label: "Pay on Delivery" },
             { icon: <FiShield size={24} />, label: "Secure Payment" },
           ].map((item) => (
-            <div key={item.label} className="flex flex-col items-center gap-2 text-center">
+            <div
+              key={item.label}
+              className="flex flex-col items-center gap-2 text-center"
+            >
               <div className="text-orange-500">{item.icon}</div>
               <span className="text-xs font-black text-gray-900 uppercase tracking-widest">
                 {item.label}
@@ -270,7 +273,6 @@ export default async function ProductDetailPage({ params }) {
             </div>
           ))}
         </div>
-
         {/* You May Also Like */}
         {displayRelated.length > 0 && (
           <div>

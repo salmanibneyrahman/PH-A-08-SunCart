@@ -35,20 +35,23 @@ const slides = [
 export default function HeroSlider() {
   const [current, setCurrent] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const timerRef = useRef(null);
 
   const next = () => {
+    setImageLoaded(false);
     setCurrent((prev) => (prev + 1) % slides.length);
   };
 
   const prev = () => {
+    setImageLoaded(false);
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
   };
-
 
   const goTo = (index) => {
     if (animating) return;
     setAnimating(true);
+    setImageLoaded(false);
     setCurrent(index);
     setTimeout(() => setAnimating(false), 600);
   };
@@ -63,14 +66,12 @@ export default function HeroSlider() {
     goTo((current - 1 + slides.length) % slides.length);
   };
 
-  // 2. Real-time background continuous runtime garbage collection management
   useEffect(() => {
-
     if (timerRef.current) clearInterval(timerRef.current);
 
     timerRef.current = setInterval(() => {
       next();
-    }, 4000); // 4 seconds delay auto slide profile
+    }, 4000);
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -80,21 +81,24 @@ export default function HeroSlider() {
   const slide = slides[current];
 
   return (
-    <div className="relative w-full h-[480px] md:h-[580px] overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0" key={`bg-${current}`}>
+    <div className="relative w-full h-[480px] md:h-[580px] overflow-hidden bg-gray-950">
+
+      {/* Background Image Container */}
+      <div className="absolute inset-0">
         <Image
           src={slide.image}
           alt={slide.title}
           fill
           priority
-          className="object-cover transition-all duration-700 animate__animated animate__fadeIn"
+          onLoadingComplete={() => setImageLoaded(true)}
+          className={`object-cover transition-opacity duration-1000 ease-in-out ${imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
           sizes="100vw"
         />
       </div>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/20" />
+      <div className="absolute inset-0 bg-black/30" />
 
       {/* Content Wrapper */}
       <div
@@ -120,7 +124,7 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      {/* Arrow Controls with new manual lifecycle triggers */}
+      {/* Arrow Controls */}
       <button
         onClick={handleManualPrev}
         className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm flex items-center justify-center text-white transition z-10"

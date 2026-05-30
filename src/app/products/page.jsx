@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useEffect } from "react";
 import ProductCard from "@/components/ProductCard";
-
 import { FiGrid, FiList, FiChevronDown } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,27 +17,17 @@ const sortOptions = [
 ];
 
 export default function ProductsPage() {
+  const [productsData, setProductsData] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [sortBy, setSortBy] = useState("best");
   const [viewMode, setViewMode] = useState("grid");
-  const [productsData, setProductsData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
+  // Fetch data dynamically on component mount
   useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const res = await fetch('https://suncart-website.onrender.com/products');
-        if (!res.ok) throw new Error('Failed to fetch');
-        const data = await res.json();
-        setProductsData(data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        setProductsData([]);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchProducts();
+    fetch("https://suncart-website.onrender.com/products")
+      .then((res) => res.json())
+      .then((data) => setProductsData(data))
+      .catch((err) => console.error("Failed to fetch products:", err));
   }, []);
 
   const filteredAndSorted = useMemo(() => {
@@ -64,17 +53,8 @@ export default function ProductsPage() {
       default:
         break;
     }
-
     return result;
-  }, [activeCategory, sortBy, productsData]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600">Loading products...</p>
-      </div>
-    );
-  }
+  }, [productsData, activeCategory, sortBy]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -96,12 +76,9 @@ export default function ProductsPage() {
           </p>
         </div>
       </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
         {/* Toolbar Row */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-gray-100">
-
           {/* Left side: view toggle + count */}
           <div className="flex items-center gap-3">
             {/* Grid View Button */}
@@ -115,8 +92,10 @@ export default function ProductsPage() {
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: "6px",
-                border: viewMode === "grid" ? "1px solid #111827" : "1px solid #e5e7eb",
-                backgroundColor: viewMode === "grid" ? "#111827" : "transparent",
+                border:
+                  viewMode === "grid" ? "1px solid #111827" : "1px solid #e5e7eb",
+                backgroundColor:
+                  viewMode === "grid" ? "#111827" : "transparent",
                 color: viewMode === "grid" ? "#ffffff" : "#6b7280",
                 cursor: "pointer",
                 transition: "all 0.2s",
@@ -124,7 +103,6 @@ export default function ProductsPage() {
             >
               <FiGrid size={15} />
             </button>
-
             {/* List View Button */}
             <button
               type="button"
@@ -136,8 +114,10 @@ export default function ProductsPage() {
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: "6px",
-                border: viewMode === "list" ? "1px solid #111827" : "1px solid #e5e7eb",
-                backgroundColor: viewMode === "list" ? "#111827" : "transparent",
+                border:
+                  viewMode === "list" ? "1px solid #111827" : "1px solid #e5e7eb",
+                backgroundColor:
+                  viewMode === "list" ? "#111827" : "transparent",
                 color: viewMode === "list" ? "#ffffff" : "#6b7280",
                 cursor: "pointer",
                 transition: "all 0.2s",
@@ -145,13 +125,13 @@ export default function ProductsPage() {
             >
               <FiList size={15} />
             </button>
-
-            <span style={{ color: "#9ca3af", fontSize: "13px", marginLeft: "4px" }}>
+            <span
+              style={{ color: "#9ca3af", fontSize: "13px", marginLeft: "4px" }}
+            >
               {filteredAndSorted.length}{" "}
               {filteredAndSorted.length === 1 ? "product" : "products"}
             </span>
           </div>
-
           {/* Right side: sort dropdown */}
           <div
             style={{
@@ -207,7 +187,6 @@ export default function ProductsPage() {
             </div>
           </div>
         </div>
-
         {/* Category Filter Tags */}
         <div className="mb-8">
           <p
@@ -235,8 +214,12 @@ export default function ProductsPage() {
                   fontWeight: "700",
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
-                  border: activeCategory === cat ? "1px solid #111827" : "1px solid #e5e7eb",
-                  backgroundColor: activeCategory === cat ? "#111827" : "#ffffff",
+                  border:
+                    activeCategory === cat
+                      ? "1px solid #111827"
+                      : "1px solid #e5e7eb",
+                  backgroundColor:
+                    activeCategory === cat ? "#111827" : "#ffffff",
                   color: activeCategory === cat ? "#ffffff" : "#6b7280",
                   cursor: "pointer",
                   transition: "all 0.2s",
@@ -247,7 +230,6 @@ export default function ProductsPage() {
             ))}
           </div>
         </div>
-
         {/* Products Grid */}
         {filteredAndSorted.length > 0 ? (
           <div
@@ -392,7 +374,14 @@ function ListProductCard({ product }) {
         <p style={{ fontSize: "12px", color: "#9ca3af", marginBottom: "6px" }}>
           {product.brand}
         </p>
-        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "8px" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "4px",
+            marginBottom: "8px",
+          }}
+        >
           {[...Array(5)].map((_, i) => (
             <span
               key={i}
@@ -404,7 +393,9 @@ function ListProductCard({ product }) {
               ★
             </span>
           ))}
-          <span style={{ fontSize: "11px", color: "#9ca3af", marginLeft: "4px" }}>
+          <span
+            style={{ fontSize: "11px", color: "#9ca3af", marginLeft: "4px" }}
+          >
             {product.rating}
           </span>
         </div>
