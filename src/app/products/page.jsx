@@ -81,91 +81,46 @@ export default function ProductsPage() {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-gray-100">
           {/* Left side: view toggle + count */}
           <div className="flex items-center gap-3">
-            {/* Grid View Button */}
+            {/* Grid View Button — Refactored to Pure Tailwind Utility Classes */}
             <button
               type="button"
               onClick={() => setViewMode("grid")}
-              style={{
-                width: "34px",
-                height: "34px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "6px",
-                border:
-                  viewMode === "grid" ? "1px solid #111827" : "1px solid #e5e7eb",
-                backgroundColor:
-                  viewMode === "grid" ? "#111827" : "transparent",
-                color: viewMode === "grid" ? "#ffffff" : "#6b7280",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
+              className={`w-[34px] h-[34px] flex items-center justify-center rounded-lg border transition-all duration-200 ${viewMode === "grid"
+                  ? "border-gray-900 bg-gray-900 text-white"
+                  : "border-gray-200 bg-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                }`}
             >
               <FiGrid size={15} />
             </button>
-            {/* List View Button */}
+            {/* Left View Toggle & Product Count Controls */}
             <button
               type="button"
               onClick={() => setViewMode("list")}
-              style={{
-                width: "34px",
-                height: "34px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "6px",
-                border:
-                  viewMode === "list" ? "1px solid #111827" : "1px solid #e5e7eb",
-                backgroundColor:
-                  viewMode === "list" ? "#111827" : "transparent",
-                color: viewMode === "list" ? "#ffffff" : "#6b7280",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
+              className={`w-[34px] h-[34px] flex items-center justify-center rounded-lg border transition-all duration-200 ${viewMode === "list"
+                ? "border-gray-900 bg-gray-900 text-white"
+                : "border-gray-200 bg-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                }`}
             >
               <FiList size={15} />
             </button>
-            <span
-              style={{ color: "#9ca3af", fontSize: "13px", marginLeft: "4px" }}
-            >
+
+            <span className="text-gray-400 text-[13px] ml-1">
               {filteredAndSorted.length}{" "}
               {filteredAndSorted.length === 1 ? "product" : "products"}
             </span>
           </div>
-          {/* Right side: sort dropdown */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-            }}
-          >
-            <span
-              style={{
-                color: "#374151",
-                fontSize: "13px",
-                fontWeight: "600",
-              }}
-            >
+
+          {/* Right Side: Sophisticated Sort Dropdown Wrapper */}
+          <div className="flex items-center gap-2.5">
+            <span className="text-gray-700 text-[13px] font-semibold">
               Sort by:
             </span>
-            <div style={{ position: "relative" }}>
+
+            <div className="relative">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                style={{
-                  appearance: "none",
-                  WebkitAppearance: "none",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "8px",
-                  padding: "7px 36px 7px 12px",
-                  fontSize: "13px",
-                  color: "#374151",
-                  backgroundColor: "#ffffff",
-                  cursor: "pointer",
-                  outline: "none",
-                  fontWeight: "500",
-                }}
+                className="appearance-none border border-gray-200 rounded-lg py-[7px] pl-3 pr-9 text-[13px] text-gray-700 bg-white cursor-pointer outline-none font-medium transition-colors hover:border-gray-300 focus:border-orange-500 select-sm"
               >
                 {sortOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -173,63 +128,38 @@ export default function ProductsPage() {
                   </option>
                 ))}
               </select>
+
               <FiChevronDown
                 size={14}
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  color: "#9ca3af",
-                  pointerEvents: "none",
-                }}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
               />
             </div>
           </div>
+
         </div>
         {/* Category Filter Tags */}
         <div className="mb-8">
-          <p
-            style={{
-              color: "#374151",
-              fontWeight: "700",
-              fontSize: "12px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              marginBottom: "12px",
-            }}
-          >
+          <p className="text-gray-700 font-bold text-xs tracking-widest uppercase mb-3">
             Filter by Category:
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+
+          <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                style={{
-                  padding: "6px 16px",
-                  borderRadius: "9999px",
-                  fontSize: "11px",
-                  fontWeight: "700",
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  border:
-                    activeCategory === cat
-                      ? "1px solid #111827"
-                      : "1px solid #e5e7eb",
-                  backgroundColor:
-                    activeCategory === cat ? "#111827" : "#ffffff",
-                  color: activeCategory === cat ? "#ffffff" : "#6b7280",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                }}
+                className={`btn btn-sm rounded-full text-[11px] font-bold tracking-wider uppercase border transition-all duration-200 shadow-sm ${activeCategory === cat
+                  ? "bg-gray-900 text-white border-gray-900 hover:bg-gray-800"
+                  : "bg-white text-gray-500 border-gray-200 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300"
+                  }`}
               >
                 {cat}
               </button>
             ))}
           </div>
         </div>
+
         {/* Products Grid */}
         {filteredAndSorted.length > 0 ? (
           <div
@@ -315,112 +245,66 @@ export default function ProductsPage() {
 }
 
 function ListProductCard({ product }) {
-  const stars = Math.round(product.rating);
+  const stars = Math.round(product.rating || 5);
+
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "20px",
-        backgroundColor: "#ffffff",
-        borderRadius: "16px",
-        border: "1px solid #f3f4f6",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
-        overflow: "hidden",
-        padding: "16px",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          position: "relative",
-          width: "100px",
-          height: "120px",
-          borderRadius: "12px",
-          overflow: "hidden",
-          backgroundColor: "#f9fafb",
-          flexShrink: 0,
-        }}
-      >
+    <div className="flex gap-5 bg-white rounded-2xl border border-gray-100 shadow-sm p-4 items-center hover:shadow-md transition duration-300 group">
+
+      {/* Product Image Frame */}
+      <div className="relative w-[100px] h-[120px] rounded-xl overflow-hidden bg-gray-50 shrink-0 border border-gray-50">
         <Image
           src={product.image}
           alt={product.name}
           fill
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          className="object-cover group-hover:scale-105 transition duration-500"
+          sizes="100px"
         />
       </div>
-      <div style={{ flex: 1 }}>
-        <span
-          style={{
-            fontSize: "10px",
-            fontWeight: "700",
-            color: "#f97316",
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-          }}
-        >
+
+      {/* Product Content Body */}
+      <div className="flex-1 min-w-0">
+        {/* Category Badge */}
+        <span className="text-[10px] font-black text-orange-500 uppercase tracking-widest block">
           {product.category}
         </span>
-        <p
-          style={{
-            fontWeight: "800",
-            fontSize: "14px",
-            color: "#111827",
-            textTransform: "uppercase",
-            margin: "4px 0 6px",
-          }}
-        >
+
+        {/* Title */}
+        <h3 className="font-black text-sm text-gray-900 uppercase tracking-wide mt-1 mb-0.5 truncate">
           {product.name}
-        </p>
-        <p style={{ fontSize: "12px", color: "#9ca3af", marginBottom: "6px" }}>
+        </h3>
+
+        {/* Brand */}
+        <p className="text-xs text-gray-400 font-medium mb-1.5">
           {product.brand}
         </p>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "4px",
-            marginBottom: "8px",
-          }}
-        >
-          {[...Array(5)].map((_, i) => (
-            <span
-              key={i}
-              style={{
-                color: i < stars ? "#f97316" : "#e5e7eb",
-                fontSize: "12px",
-              }}
-            >
-              ★
-            </span>
-          ))}
-          <span
-            style={{ fontSize: "11px", color: "#9ca3af", marginLeft: "4px" }}
-          >
+
+        {/* Rating Section via DaisyUI Star/Rating styles mask framework */}
+        <div className="flex items-center gap-1 mb-2">
+          <div className="flex text-orange-500 text-xs">
+            {[...Array(5)].map((_, i) => (
+              <span key={i} className={i < stars ? "text-orange-500" : "text-gray-200"}>
+                ★
+              </span>
+            ))}
+          </div>
+          <span className="text-[11px] text-gray-400 font-bold ml-1">
             {product.rating}
           </span>
         </div>
-        <p style={{ fontWeight: "900", fontSize: "16px", color: "#111827" }}>
+
+        {/* Price Tag */}
+        <p className="font-black text-base text-gray-900">
           ${product.price}.00 USD
         </p>
       </div>
-      <a
+
+      {/* 🚀 View Details Button Optimized with Next.js Link & DaisyUI Button Layout */}
+      <Link
         href={`/products/${product.id}`}
-        style={{
-          backgroundColor: "#111827",
-          color: "#ffffff",
-          fontWeight: "700",
-          fontSize: "11px",
-          padding: "10px 20px",
-          borderRadius: "9999px",
-          textDecoration: "none",
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-          flexShrink: 0,
-          transition: "background-color 0.2s",
-        }}
+        className="btn btn-sm bg-gray-900 hover:bg-orange-500 text-white border-none rounded-full px-5 text-[11px] font-black uppercase tracking-widest shrink-0 shadow-sm hover:shadow transition duration-300"
       >
         View Details
-      </a>
+      </Link>
     </div>
   );
 }

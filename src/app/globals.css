@@ -23,7 +23,6 @@ body {
   overflow: hidden;
 }
 
-/* Globals.css er ekdom niche eita bashiye din mama, kono plugin lagbe na */
 @keyframes marquee {
   0% {
     transform: translateX(0%);
