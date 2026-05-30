@@ -1,90 +1,92 @@
-[
-  {
-    "id": 1,
-    "name": "UV Protection Sunglasses",
-    "brand": "SunShade",
-    "price": 15,
-    "rating": 4.7,
-    "stock": 10,
-    "description": "Stylish UV protection sunglasses perfect for summer outings. These premium sunglasses block 100% of UVA and UVB rays, keeping your eyes safe while looking trendy at the beach or pool.",
-    "image": "https://images.unsplash.com/photo-1584036553516-bf83210aa16c?q=200000&w=680",
-    "category": "Accessories"
-  },
-  {
-    "id": 2,
-    "name": "Floral Beach Dress",
-    "brand": "SummerVibes",
-    "price": 45,
-    "rating": 4.5,
-    "stock": 25,
-    "description": "Light and breezy floral beach dress made from 100% breathable cotton. Perfect for beach days, brunches, or casual summer outings. Features a comfortable loose fit and vibrant tropical print.",
-    "image": "https://images.unsplash.com/photo-1774507194383-7c6780abf1e5?w=600",
-    "category": "Clothing"
-  },
-  {
-    "id": 3,
-    "name": "SPF 50 Sunscreen Lotion",
-    "brand": "GlowSafe",
-    "price": 22,
-    "rating": 4.8,
-    "stock": 50,
-    "description": "Broad spectrum SPF 50 sunscreen lotion that protects your skin from harmful UV rays. Water-resistant formula lasts up to 80 minutes. Lightweight, non-greasy and suitable for all skin types.",
-    "image": "https://images.unsplash.com/photo-1738721796993-5f42d9315689?q=80&w=764",
-    "category": "Skincare"
-  },
-  {
-    "id": 4,
-    "name": "Beach Tote Bag",
-    "brand": "CoastalCo",
-    "price": 30,
-    "rating": 4.4,
-    "stock": 15,
-    "description": "Spacious and stylish beach tote bag made from durable canvas material. Features multiple pockets, a zippered compartment, and comfortable shoulder straps. Perfect for carrying all your beach essentials.",
-    "image": "https://plus.unsplash.com/premium_photo-1681498805770-fb4ed08e63f8?q=80&w=687",
-    "category": "Accessories"
-  },
-  {
-    "id": 5,
-    "name": "Surfboard Shorts",
-    "brand": "WaveRider",
-    "price": 35,
-    "rating": 4.6,
-    "stock": 20,
-    "description": "Quick-dry surfboard shorts with a bold tropical print. Made from recycled polyester with UPF 30+ protection. Features a secure drawstring waist and side pockets, ideal for surfing or beach volleyball.",
-    "image": "https://gokyo.in/cdn/shop/files/MiamiShortsLifestyle.jpg?v=1775540283&width=1500",
-    "category": "Clothing"
-  },
-  {
-    "id": 6,
-    "name": "Aloe Vera After Sun Gel",
-    "brand": "GlowSafe",
-    "price": 18,
-    "rating": 4.9,
-    "stock": 40,
-    "description": "Soothing aloe vera after sun gel that cools and repairs sun-exposed skin instantly. Enriched with vitamin E and cucumber extract for deep hydration. Fragrance-free and suitable for sensitive skin.",
-    "image": "https://images.unsplash.com/photo-1691707895857-23090885ab4d?q=80&w=687",
-    "category": "Skincare"
-  },
-  {
-    "id": 7,
-    "name": "Straw Sun Hat",
-    "brand": "SunShade",
-    "price": 28,
-    "rating": 4.3,
-    "stock": 18,
-    "description": "Classic wide-brim straw sun hat offering excellent shade and style. Lightweight and breathable with an adjustable inner band for a perfect fit. Foldable design makes it easy to pack for travel.",
-    "image": "https://images.unsplash.com/photo-1572307480813-ceb0e59d8325?w=600&q=80",
-    "category": "Accessories"
-  },
-  {
-    "id": 8,
-    "name": "Waterproof Sandals",
-    "brand": "CoastalCo",
-    "price": 40,
-    "rating": 4.5,
-    "stock": 12,
-    "description": "Comfortable waterproof sandals designed for beach and water activities. Features a non-slip rubber sole, adjustable straps, and quick-dry material. Available in multiple colors and sizes.",
-    "image": "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=600&q=80",
-    "category": "Footwear"
-  }
-]
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "UV Protection Sunglasses",
+      "brand": "SunShade",
+      "price": 15,
+      "rating": 4.7,
+      "stock": 10,
+      "description": "Stylish UV protection sunglasses perfect for summer outings. These premium sunglasses block 100% of UVA and UVB rays, keeping your eyes safe while looking trendy at the beach or pool.",
+      "image": "https://images.unsplash.com/photo-1584036553516-bf83210aa16c?q=200000&w=680",
+      "category": "Accessories"
+    },
+    {
+      "id": 2,
+      "name": "Floral Beach Dress",
+      "brand": "SummerVibes",
+      "price": 45,
+      "rating": 4.5,
+      "stock": 25,
+      "description": "Light and breezy floral beach dress made from 100% breathable cotton. Perfect for beach days, brunches, or casual summer outings. Features a comfortable loose fit and vibrant tropical print.",
+      "image": "https://images.unsplash.com/photo-1774507194383-7c6780abf1e5?w=600",
+      "category": "Clothing"
+    },
+    {
+      "id": 3,
+      "name": "SPF 50 Sunscreen Lotion",
+      "brand": "GlowSafe",
+      "price": 22,
+      "rating": 4.8,
+      "stock": 50,
+      "description": "Broad spectrum SPF 50 sunscreen lotion that protects your skin from harmful UV rays. Water-resistant formula lasts up to 80 minutes. Lightweight, non-greasy and suitable for all skin types.",
+      "image": "https://images.unsplash.com/photo-1738721796993-5f42d9315689?q=80&w=764",
+      "category": "Skincare"
+    },
+    {
+      "id": 4,
+      "name": "Beach Tote Bag",
+      "brand": "CoastalCo",
+      "price": 30,
+      "rating": 4.4,
+      "stock": 15,
+      "description": "Spacious and stylish beach tote bag made from durable canvas material. Features multiple pockets, a zippered compartment, and comfortable shoulder straps. Perfect for carrying all your beach essentials.",
+      "image": "https://plus.unsplash.com/premium_photo-1681498805770-fb4ed08e63f8?q=80&w=687",
+      "category": "Accessories"
+    },
+    {
+      "id": 5,
+      "name": "Surfboard Shorts",
+      "brand": "WaveRider",
+      "price": 35,
+      "rating": 4.6,
+      "stock": 20,
+      "description": "Quick-dry surfboard shorts with a bold tropical print. Made from recycled polyester with UPF 30+ protection. Features a secure drawstring waist and side pockets, ideal for surfing or beach volleyball.",
+      "image": "https://gokyo.in/cdn/shop/files/MiamiShortsLifestyle.jpg?v=1775540283&width=1500",
+      "category": "Clothing"
+    },
+    {
+      "id": 6,
+      "name": "Aloe Vera After Sun Gel",
+      "brand": "GlowSafe",
+      "price": 18,
+      "rating": 4.9,
+      "stock": 40,
+      "description": "Soothing aloe vera after sun gel that cools and repairs sun-exposed skin instantly. Enriched with vitamin E and cucumber extract for deep hydration. Fragrance-free and suitable for sensitive skin.",
+      "image": "https://images.unsplash.com/photo-1691707895857-23090885ab4d?q=80&w=687",
+      "category": "Skincare"
+    },
+    {
+      "id": 7,
+      "name": "Straw Sun Hat",
+      "brand": "SunShade",
+      "price": 28,
+      "rating": 4.3,
+      "stock": 18,
+      "description": "Classic wide-brim straw sun hat offering excellent shade and style. Lightweight and breathable with an adjustable inner band for a perfect fit. Foldable design makes it easy to pack for travel.",
+      "image": "https://images.unsplash.com/photo-1572307480813-ceb0e59d8325?w=600&q=80",
+      "category": "Accessories"
+    },
+    {
+      "id": 8,
+      "name": "Waterproof Sandals",
+      "brand": "CoastalCo",
+      "price": 40,
+      "rating": 4.5,
+      "stock": 12,
+      "description": "Comfortable waterproof sandals designed for beach and water activities. Features a non-slip rubber sole, adjustable straps, and quick-dry material. Available in multiple colors and sizes.",
+      "image": "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=600&q=80",
+      "category": "Footwear"
+    }
+  ]
+}
